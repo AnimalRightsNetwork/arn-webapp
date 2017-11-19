@@ -1,0 +1,49 @@
+// Use compass
+@import "compass";
+
+// Constants
+$background-base: rgb(230, 230, 230);
+
+// "home" page styling
+body.static_pages-home {
+    // Font
+    font-family: Impact, Charcoal, sans-serif;
+    text-align: center;
+
+    // Background
+    @include background-image(radial-gradient(
+        closest-corner,
+        $background-base 0%,
+        adjust-lightness($background-base, -60%) 100%
+    ));
+
+    // Logo
+    #image-logo {
+        display: inline-block;
+        width: 40%;
+        max-width: 500px;
+        margin-top: 10%;
+    }
+
+    // Header
+    h1 {
+        font-size: 50px;
+        text-transform: uppercase;
+        font-weight: normal;
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+
+    // Sub header
+    h2 {
+        font-size: 25px;
+        font-weight: normal;
+        margin-right: 5%;
+        margin-left: 5%;
+    }
+
+    // Paragraph
+    p {
+        margin-top: 45px;
+    }
+}

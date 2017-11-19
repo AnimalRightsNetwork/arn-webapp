@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>AnimalRightsNetwork</title>
+    <title>Animal Rights Network</title>
     <%= csrf_meta_tags %>
+
+    <%= favicon_link_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-  <body>
+  <body class="<%= controller_name %> <%= controller_name %>-<%= action_name %>">
     <%= yield %>
   </body>
 </html>

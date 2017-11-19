@@ -1,0 +1,14 @@
+// Use compass
+@import "compass";
+
+// Use border box document wide
+* {
+    @include box-sizing(border-box);
+}
+
+// Give body full height
+html, body {
+    min-height: 100%;
+    margin: 0;
+    padding: 0;
+}
