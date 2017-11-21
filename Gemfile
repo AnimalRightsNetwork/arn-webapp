@@ -43,6 +43,14 @@ group :development, :test do
   gem 'selenium-webdriver'
 end
 
+group :test do
+  # Use Guard for automated test runs
+  gem 'rails-controller-testing', '~> 1.0'
+  gem 'minitest-reporters', '~> 1.0'
+  gem 'guard', '~> 2.13'
+  gem 'guard-minitest', '~> 2.4'
+end
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
