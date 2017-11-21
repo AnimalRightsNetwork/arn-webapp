@@ -22,6 +22,9 @@
 
 .byebug_history
 
+# Ignore spring pids
+/spring/*.pid
+
 # Ignore temporary vim files
 [._]*.s[a-v][a-z]
 [._]*.sw[a-p]
@@ -30,4 +33,4 @@
 Session.vim
 .netrwhist
 *~
-tags
+.tags
