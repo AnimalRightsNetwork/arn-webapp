@@ -23,8 +23,9 @@ Checkout the branch you would like to work on and install the required gems:
 bin/bundle install --without production
 ```
 
-Migrate the database:
+Create and migrate the database:
 ```
+bin/rails db:create
 bin/rails db:migrate
 ```
 
@@ -59,6 +60,8 @@ Install the required production gems:
 bin/bundle install --without development test
 ```
 
+Setup your database.
+
 Set up the following environment variables (for example in your `.bash_profile`):
 ```
 export RAILS_DATABASE=<driver>://<db-user>:<db-password>@<db-ip>:<dp-port>/<db-name>
@@ -70,6 +73,11 @@ export RAILS_ENV=production
 Migrate the database:
 ```
 bin/rails db:migrate
+```
+
+Precompile the assets:
+```
+bin/rails assets:precompile
 ```
 
 Start the application server on your desired ip address and port (by default `localhost:3000`):
