@@ -9,6 +9,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Don't expect top level domain
+  config.action_dispatch.tld_length = 0
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
