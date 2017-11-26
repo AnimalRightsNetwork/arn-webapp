@@ -1,0 +1,25 @@
+---
+en:
+  activerecord:
+    models:
+      org: { one: "Organization", other: "Organizations" }
+    attributes:
+      org:
+        id: "ID"
+        display_id: "Display ID"
+        name: "Name"
+        logo_url: "Logo URL"
+        cover_url: "Cover URL"
+        marker_url: "Marker URL"
+        marker_color: "Marker color"
+    errors:
+      models:
+        org:
+          attributes:
+            id:
+              invalid_characters: "can only contain lower case letters and digits"
+            display_id:
+              incompatible_with_id: "needs to be equal to the id except for capitalization"
+            marker_color:
+              invalid_characters: "can only contain hexadecimal digits"
+
