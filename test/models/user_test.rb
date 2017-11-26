@@ -1,14 +1,14 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  test "should not only save with correct length" do
+  test "should only save with correct length" do
     # Test id too short
     u = User.create id: 'shrt', password: 'MyPassw0rd', password_confirmation: 'MyPassw0rd'
     assert_not u.save
     assert_not_empty u.errors[:id]
 
     # Test id too long and invalid characters
-    u.id = "this1istolongtoousea5"
+    u.id = "this1istolongtoousea$"
     assert_not u.save
     assert_not_empty u.errors[:id]
 
