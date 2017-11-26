@@ -10,7 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171125134918) do
+ActiveRecord::Schema.define(version: 20171126121618) do
+
+  create_table "org_types", force: :cascade do |t|
+    t.string "name"
+    t.string "icon_url"
+  end
 
   create_table "users", id: :string, force: :cascade do |t|
     t.string "password_digest"
