@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    models:
+      org_type: { one: "Organization type", other: "Organization types" }
+    attributes:
+      org_type:
+        name: "Name"
+        icon_url: "Icon URL"
