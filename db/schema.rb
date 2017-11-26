@@ -10,11 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171126121618) do
+ActiveRecord::Schema.define(version: 20171126173816) do
 
   create_table "org_types", force: :cascade do |t|
     t.string "name"
     t.string "icon_url"
+  end
+
+  create_table "orgs", id: :string, force: :cascade do |t|
+    t.string "display_id"
+    t.integer "type_id"
+    t.string "name"
+    t.string "logo_url"
+    t.string "cover_url"
+    t.string "video_url"
+    t.string "marker_url"
+    t.string "marker_color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["id"], name: "sqlite_autoindex_orgs_1", unique: true
+    t.index ["name"], name: "index_orgs_on_name"
+    t.index ["type_id"], name: "index_orgs_on_type_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
