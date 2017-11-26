@@ -2,8 +2,8 @@
 de:
   activerecord:
     models:
-      org_type: { one: "Organisationstyp", other: "Organisationstypen" }
+      org/type: { one: "Organisationstyp", other: "Organisationstypen" }
     attributes:
-      org_type:
+      org/type:
         name: "Name"
         icon_url: "Icon URL"

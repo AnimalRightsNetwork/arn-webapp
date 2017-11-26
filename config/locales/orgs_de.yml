@@ -1,0 +1,25 @@
+---
+de:
+  activerecord:
+    models:
+      org: { one: "Organisation", other: "Organisationen" }
+    attributes:
+      org:
+        id: "ID"
+        display_id: "Anzeige-ID"
+        name: "Name"
+        logo_url: "Logo URL"
+        cover_url: "Cover URL"
+        marker_url: "Marker URL"
+        marker_color: "Markerfarbe"
+    errors:
+      models:
+        org:
+          attributes:
+            id:
+              invalid_characters: "darf nur kleine Buchstaben und Zahlen enthalten"
+            display_id:
+              incompatible_with_id: "muss bis auf Groß-/Kleinschreibung der ID entsprechen"
+            marker_color:
+              invalid_characters: "darf nur aus hexadezimalen Ziffern bestehen"
+

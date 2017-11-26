@@ -1,9 +1,9 @@
 require 'test_helper'
 
-class OrgTypeTest < ActiveSupport::TestCase
+class Org::TypeTest < ActiveSupport::TestCase
   test "should only save with name and icon url" do
     # Test without attributes
-    t = OrgType.new
+    t = Org::Type.new
     assert_not t.save
     assert_not_empty t.errors[:name]
     assert_not_empty t.errors[:icon_url]
@@ -27,8 +27,8 @@ class OrgTypeTest < ActiveSupport::TestCase
   end
 
   test "should enforce name uniqueness" do
-    t1 = OrgType.new name: 'party', icon_url: 'org_types/party.png'
-    t2 = OrgType.new name: 'party', icon_url: 'org_types/parties.png'
+    t1 = Org::Type.new name: 'party', icon_url: 'org_types/party.png'
+    t2 = Org::Type.new name: 'party', icon_url: 'org_types/parties.png'
     assert t1.save
     assert_not t2.save
     assert_not_empty t2.errors[:name]
