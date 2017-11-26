@@ -1,0 +1,17 @@
+---
+en:
+  activerecord:
+    models:
+      user: {one: "User", other: "Users"}
+    attributes:
+      user:
+        id: "User id"
+        password: "Password"
+    errors:
+      models:
+        user:
+          attributes:
+            id:
+              invalid_characters: "can only contain letters and digits"
+            password:
+              insufficient_complexity: "needs to contain upper case, lower case and digits"
