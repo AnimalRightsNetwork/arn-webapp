@@ -4,6 +4,9 @@ module LocaleHandler
   private
     # Handle locale based on accept header, domain and session information
     def handle_locale
+      # Reset to default locale
+      I18n.locale = I18n.default_locale
+
       if request.subdomain.empty?
         unless session.include? :language_set
           # Get compatible locale from "Accept-Language" header
@@ -11,8 +14,7 @@ module LocaleHandler
             .language_region_compatible_from(I18n.available_locales)&.to_sym
           if header_locale && header_locale != I18n.default_locale
             # Redirect to language from "Accept-Language" header
-            redirect_host = request.domain
-            redirect_host += ":#{request.port}" if request.port != 80
+            redirect_host = "#{request.domain}:#{request.port}"
             redirect_to "#{request.protocol}#{header_locale}.#{redirect_host}#{request.fullpath}"
             logger.debug "Redirect to #{header_locale} subdomain from 'Accept-Language' header"
           end
