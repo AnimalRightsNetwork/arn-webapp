@@ -27,8 +27,7 @@ module LocaleHandler
           logger.debug "Set #{request.subdomain.to_sym} locale from subdomain"
         else
           # Redirect to base domain
-          redirect_host = request.domain
-          redirect_host += ":#{request.port}" if request.port != 80
+          redirect_host = "#{request.domain}:#{request.port}"
           redirect_to "#{request.protocol}#{redirect_host}#{request.fullpath}"
           logger.debug "Redirect to base domain because of unavailable language"
           return if I18n.default_locale != request.subdomain.to_sym
