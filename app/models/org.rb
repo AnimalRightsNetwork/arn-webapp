@@ -1,13 +1,10 @@
 class Org < ApplicationRecord
+  # Associations
   belongs_to :type
 
   # Validate organization id length and character restrictions
   validates :id, length: {minimum: 4, maximum: 30}, uniqueness: true,
     format: { with: /\A[a-z0-9]*\z/, message: :invalid_characters }, presence: true
-
-  # Validate display id
-  validates :display_id, presence: true
-  validate :display_id_equality
 
   # Validate name
   validates :name, length: { minimum: 4, maximum: 30 }, uniqueness: true, presence: true
@@ -19,11 +16,10 @@ class Org < ApplicationRecord
   validates :marker_color, length: { is: 6 },
     format: { with: /\A[0-9a-f]*\z/, message: :invalid_characters }, presence: true
 
-  # Helper methods
-  private
-    def display_id_equality
-      unless display_id&.downcase == id
-        errors.add(:display_id, :incompatible_with_id)
-      end
-    end
+  # Make id only writable via display_id
+  private :id=
+  def display_id= display_id
+    self.id = display_id&.downcase
+    super(display_id)
+  end
 end
