@@ -81,12 +81,15 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should save without new password" do
-    # Create
+    # Create valid user
     u = User.new default_options.merge(id: 'oldpassword', email: 'oldpassword@example.com')
     assert u.save
 
+    # Reload user and change id
     u = User.find 'oldpassword'
     u.id = 'oldpasswordchanged'
+
+    # Save without new password
     assert_nil u.password
     assert_nil u.password_confirmation
     assert u.save
@@ -140,7 +143,7 @@ class UserTest < ActiveSupport::TestCase
     # Reload user
     u = User.find 'activation'
 
-    # Test user not being acitvated by default
+    # Test user not being activated by default
     assert_not u.activated?
 
     # Test user activation
