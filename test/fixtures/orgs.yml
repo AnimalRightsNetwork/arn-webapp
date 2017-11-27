@@ -1,0 +1,21 @@
+org1:
+  id: testorg1
+  display_id: TestOrg1
+  type: group
+  name: Test Organization 1
+  logo_url: orgs/logos/testorg1.png
+  cover_url: orgs/covers/testorg1.jpg
+  video_url: orgs/videos/testorg1.mp4
+  marker_url: orgs/markers/testorg1.png
+  marker_color: "000000"
+
+org2:
+  id: testorg2
+  display_id: TestOrg2
+  type: association
+  name: Test Organization 2
+  logo_url: orgs/logos/testorg2.png
+  cover_url: orgs/covers/testorg2.jpg
+  marker_url: orgs/markers/testorg2.png
+  marker_color: "000000"
+    

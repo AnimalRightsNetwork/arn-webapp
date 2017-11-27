@@ -1,7 +1,20 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+user1:
+  id: user1
+  email: user1@example.com
+  password_digest: <%= User.password_digest "password1" %>
+  activation_digest: <%= User.password_digest "activation1" %>
+  admin: false
 
-one:
-  password_digest: MyString
+user2:
+  id: user2
+  email: user2@example.com
+  password_digest: <%= User.password_digest "password2" %>
+  activation_digest: null
+  admin: false
 
-two:
-  password_digest: MyString
+user3:
+  id: user3
+  email: user3@example.com
+  password_digest: <%= User.password_digest "password3" %>
+  activation_digest: null
+  admin: true

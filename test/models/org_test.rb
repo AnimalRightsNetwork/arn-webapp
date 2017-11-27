@@ -129,7 +129,7 @@ class OrgTest < ActiveSupport::TestCase
   end
 
   test "should not destroy type if associated with organization" do
-    t = Org::Type.new name: 'association', icon_url: 'org_types/association.png'
+    t = Org::Type.new name: 'undestructable', icon_url: 'org_types/undestructable.png'
     o = Org.new(default_options.merge display_id: 'Typed', name: "Typed", type: t)
     assert t.save
     assert o.save
