@@ -46,7 +46,7 @@ class OrgTest < ActiveSupport::TestCase
     end
 
     # Test id auto assignment
-    o = Org.new(default_options.merge display_id: 'DisplayId', name: "ID Test 9")
+    o = Org.new(default_options.merge display_id: 'DisplayId', name: "ID Test 10")
     assert_equal o.id, o.display_id.downcase
 
     # Test direct id assignment
@@ -58,7 +58,7 @@ class OrgTest < ActiveSupport::TestCase
   test "should allow subsequent display_id assignment" do
     assert_nothing_raised do
       # Test without display id
-      o = Org.new(default_options.merge name: "ID Test 10")
+      o = Org.new(default_options.merge name: "ID Test 11")
       assert_not o.save
       assert_not_empty o.errors[:id]
 
