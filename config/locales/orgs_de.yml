@@ -18,8 +18,6 @@ de:
           attributes:
             id:
               invalid_characters: "darf nur kleine Buchstaben und Zahlen enthalten"
-            display_id:
-              incompatible_with_id: "muss bis auf Groß-/Kleinschreibung der ID entsprechen"
             marker_color:
               invalid_characters: "darf nur aus hexadezimalen Ziffern bestehen"
 
