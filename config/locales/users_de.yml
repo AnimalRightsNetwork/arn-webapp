@@ -6,6 +6,7 @@ de:
     attributes:
       user:
         id: "Nutzer ID"
+        email: "E-Mail"
         password: "Passwort"
         password_confirmation: "Passwort-Wiederholung"
     errors:
@@ -16,3 +17,6 @@ de:
               invalid_characters: "darf nur Buchstaben und Zahlen enthalten"
             password:
               insufficient_complexity: "muss Groß-, Kleinbuchstaben und Zahlen enthalten"
+            email:
+              invalid_email_address: "muss eine zulässige E-Mail-Adresse sein"
+              

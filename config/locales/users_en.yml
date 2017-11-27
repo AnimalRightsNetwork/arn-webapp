@@ -6,6 +6,7 @@ en:
     attributes:
       user:
         id: "User id"
+        email: "Email"
         password: "Password"
         password_confirmation: "Password confirmation"
     errors:
@@ -16,3 +17,5 @@ en:
               invalid_characters: "can only contain letters and digits"
             password:
               insufficient_complexity: "needs to contain upper case, lower case and digits"
+            email:
+              invalid_email_address: "needs to be a valid email address"
