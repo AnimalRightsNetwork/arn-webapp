@@ -17,9 +17,7 @@ en:
         org:
           attributes:
             id:
-              invalid_characters: "can only contain lower case letters and digits"
-            display_id:
-              incompatible_with_id: "needs to be equal to the id except for capitalization"
+              invalid_characters: "can only contain latin letters and digits"
             marker_color:
               invalid_characters: "can only contain hexadecimal digits"
 
