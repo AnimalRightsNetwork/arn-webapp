@@ -1,3 +1,7 @@
 group:
-  name: 'group'
-  icon_url: 'org_types/group.png'
+  name: group
+  icon_url: orgs/types/group.png
+
+association:
+  name: association
+  icon_url: orgs/types/association.png
