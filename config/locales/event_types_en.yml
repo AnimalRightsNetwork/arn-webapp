@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    models:
+      event/type: { one: "Event type", other: "Event types" }
+    attributes:
+      event/type:
+        name: "Name"
+        icon_url: "Icon URL"
