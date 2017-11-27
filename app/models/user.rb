@@ -60,11 +60,8 @@ class User < ApplicationRecord
 
     # Create activation token
     def create_activation_token
-      loop do
-        @activation_token = User.new_token
-        self.activation_digest = User.password_digest @activation_token
-        break unless User.exists?(activation_digest: activation_digest)
-      end
+      @activation_token = User.new_token
+      self.activation_digest = User.password_digest @activation_token
     end
 
     # Make activation digest read only
