@@ -138,6 +138,64 @@ class OrgTest < ActiveSupport::TestCase
     assert t.destroy
   end
 
+  test "should interact with admins" do
+    # Create organization and user
+    o = new_org
+    u = new_user
+    assert o.save
+
+    # Test successful admin assignment
+    assert u.new_record?
+    assert o.admins << u
+    assert_not u.new_record?
+    o = Org.find o.id
+    assert o.admins.include?(u)
+
+    # Test successful admin removal
+    u = User.find u.id
+    u.administrated_orgs.clear
+    assert o.admins.empty?
+  end
+
+  test "should prevent event tag duplicates" do
+    # Create organization and user
+    o = new_org
+    u = new_user
+
+    # Test adding user first time
+    o.admins << u
+    assert o.save
+
+    # Test adding user second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      o.admins << u
+    end
+  end
+
+  # Create organization with defaults
+  def new_org params={}
+    Org.new({
+      display_id: "TestOrganization",
+      type: Org::Type.find_by(name: :association),
+      name: "Test Organization",
+      logo_url: "orgs/logos/testorg2.png",
+      cover_url: "orgs/covers/testorg2.jpg",
+      marker_url: "orgs/markers/testorg2.png",
+      marker_color: '000000'
+    }.merge(params))
+  end
+
+  # Create user with defaults
+  def new_user params={}
+    User.new({
+      id: 'testuser',
+      email: "testuser@example.com",
+      password: 'TestPassw0rd',
+      password_confirmation: 'TestPassw0rd'
+    }.merge(params))
+  end
+
+  # Deprecated "default_options" helper
   def default_options
     {
       type: org_types(:group),
