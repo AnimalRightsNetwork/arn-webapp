@@ -71,6 +71,21 @@ class EventTest < ActiveSupport::TestCase
     assert e.tags.empty?
   end
 
+  test "should prevent event tag duplicates" do
+    # Create event and tag
+    e = new_event
+    t = new_tag
+
+    # Test adding tag first time
+    e.tags << t
+    assert e.save
+
+    # Test adding tag second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      e.tags << t
+    end
+  end
+
   # Create event with defaults
   def new_event params={}
     Event.new({
