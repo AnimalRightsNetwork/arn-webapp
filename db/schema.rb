@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128151045) do
+ActiveRecord::Schema.define(version: 20171128162330) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -25,6 +25,13 @@ ActiveRecord::Schema.define(version: 20171128151045) do
     t.string "icon_url", null: false
     t.string "color", null: false
     t.index ["name"], name: "index_event_tags_on_name", unique: true
+  end
+
+  create_table "event_tags_events", id: false, force: :cascade do |t|
+    t.integer "event_tag_id", null: false
+    t.integer "event_id", null: false
+    t.index ["event_id", "event_tag_id"], name: "index_event_tags_events_on_event_id_and_event_tag_id", unique: true
+    t.index ["event_tag_id", "event_id"], name: "index_event_tags_events_on_event_tag_id_and_event_id", unique: true
   end
 
   create_table "event_types", force: :cascade do |t|
@@ -42,8 +49,8 @@ ActiveRecord::Schema.define(version: 20171128151045) do
     t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-28 13:48:25", null: false
-    t.datetime "updated_at", default: "2017-11-28 13:48:25", null: false
+    t.datetime "created_at", default: "2017-11-28 17:16:30", null: false
+    t.datetime "updated_at", default: "2017-11-28 17:16:30", null: false
     t.index ["lat"], name: "index_events_on_lat"
     t.index ["lon"], name: "index_events_on_lon"
     t.index ["name"], name: "index_events_on_name"

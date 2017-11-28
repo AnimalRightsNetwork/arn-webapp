@@ -52,6 +52,40 @@ class EventTest < ActiveSupport::TestCase
     assert_invalid e, image_url: :blank
   end
 
+  test "should interact with tags" do
+    # Create event and tag
+    e = new_event
+    t = new_tag
+    assert e.save
+
+    # Test successful tag assignment
+    assert t.new_record?
+    assert e.tags << t
+    assert_not t.new_record?
+    e = Event.find e.id
+    assert e.tags.include?(t)
+
+    # Test successful event removal
+    t = Event::Tag.find t.id
+    t.events.clear
+    assert e.tags.empty?
+  end
+
+  test "should prevent event tag duplicates" do
+    # Create event and tag
+    e = new_event
+    t = new_tag
+
+    # Test adding tag first time
+    e.tags << t
+    assert e.save
+
+    # Test adding tag second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      e.tags << t
+    end
+  end
+
   # Create event with defaults
   def new_event params={}
     Event.new({
@@ -68,6 +102,15 @@ class EventTest < ActiveSupport::TestCase
       language: I18n.locale,
       content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
       # Needs to be assigned to an event
+    }.merge(params))
+  end
+
+  # Create event tag with defaults
+  def new_tag params={}
+    Event::Tag.new({
+      name: 'testtag',
+      icon_url: "events/tags/graphic.png",
+      color: 'ff8000'
     }.merge(params))
   end
 end
