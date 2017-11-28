@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128001720) do
+ActiveRecord::Schema.define(version: 20171128011538) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -27,17 +27,14 @@ ActiveRecord::Schema.define(version: 20171128001720) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.integer "org_id"
+    t.string "org_id"
     t.integer "type_id", null: false
     t.string "name", null: false
     t.string "image_url"
-    t.decimal "lat", precision: 10, scale: 6
-    t.decimal "lon", precision: 10, scale: 6
+    t.decimal "lat"
+    t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["end_time"], name: "index_events_on_end_time"
     t.index ["lat"], name: "index_events_on_lat"
     t.index ["lon"], name: "index_events_on_lon"
     t.index ["name"], name: "index_events_on_name"
