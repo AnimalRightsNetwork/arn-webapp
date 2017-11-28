@@ -1,5 +1,6 @@
 class Event::Tag < ApplicationRecord
   # Associations
+  has_and_belongs_to_many :events, foreign_key: :event_tag_id, validate: false
 
   # Validate uniqueness and presence of name
   validates :name, uniqueness: true, presence: true
