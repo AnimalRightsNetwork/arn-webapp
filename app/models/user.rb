@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   # Validate user id length and character restriction
   validates :id, length: { minimum: 5, maximum: 20 }, uniqueness: true,
-    format: { with: /\A[a-z0-9_]*\z/, message: :invalid_characters}, presence: true
+    format: { with: /\A[a-z0-9_]*\z/, error: :invalid_characters}, presence: true
 
   # Validate valid email address
   validates :email, email_format: true, uniqueness: true, presence: true
