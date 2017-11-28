@@ -3,6 +3,7 @@ class Org < ApplicationRecord
   belongs_to :type
   has_many :events, validate: false
   has_many :descriptions, autosave: true, dependent: :destroy
+  has_and_belongs_to_many :tags, association_foreign_key: :org_tag_id
   has_and_belongs_to_many :admins, class_name: :User, join_table: :org_administrations
 
   # Validate organization id length and character restrictions

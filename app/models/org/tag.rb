@@ -1,6 +1,6 @@
 class Org::Tag < ApplicationRecord
   # Associations
-  #has_and_belongs_to_many :orgs, foreign_key: :org_tag_id
+  has_and_belongs_to_many :orgs, foreign_key: :org_tag_id
 
   # Validate uniqueness and presence of name
   validates :name, uniqueness: true, presence: true
