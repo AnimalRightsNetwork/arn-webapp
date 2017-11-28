@@ -1,0 +1,14 @@
+org1_<%= I18n.locale %>:
+  org: org1
+  language: <%= I18n.locale %>
+  content: Lorem veniam optio iste voluptates accusamus Vitae iure maxime fugit ducimus sunt.
+
+org1_<%= I18n.available_locales[-1] %>:
+  org: org1
+  language: <%= I18n.available_locales[-1] %>
+  content: Dolor amet fugit iusto ducimus aperiam!
+
+org2_<%= I18n.locale %>:
+  org: org2
+  language: <%= I18n.locale %>
+  content: Dolor veniam cum voluptas ratione nam obcaecati nobis!
