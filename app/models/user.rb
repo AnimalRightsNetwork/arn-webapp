@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+  # Associations
+  has_and_belongs_to_many :administrated_orgs, class_name: :Org, join_table: :org_administrations
+
   # Include random token functionality
   include RandomToken
 
