@@ -52,6 +52,22 @@ class EventTest < ActiveSupport::TestCase
     assert_invalid e, image_url: :blank
   end
 
+  test "should only save without or with non empty facebook url" do
+    # Create event
+    e = new_event fb_url: nil
+
+    # Test without facebook url
+    assert e.save
+
+    # Test with empty facebook url
+    e.fb_url = ""
+    assert_invalid e, fb_url: :blank
+
+    # Test with non empty facebook url
+    e.fb_url = "/TheAnimalRightsNet/events/tests_event"
+    assert e.save
+  end
+
   test "should interact with tags" do
     # Create event and tag
     e = new_event

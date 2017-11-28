@@ -17,6 +17,9 @@ class Event < ApplicationRecord
   # Validate image url
   validates :image_url, presence: true, allow_nil: true
 
+  # Validate presence of facebook url
+  validates :fb_url, presence: true, allow_nil: true
+
   # Helper methods
   private
   def descriptions_not_empty
