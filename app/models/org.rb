@@ -1,6 +1,7 @@
 class Org < ApplicationRecord
   # Associations
   belongs_to :type
+  has_many :events, validate: false
 
   # Validate organization id length and character restrictions
   validates :id, length: {minimum: 4, maximum: 30}, uniqueness: true,
