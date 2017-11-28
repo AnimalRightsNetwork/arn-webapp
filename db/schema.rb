@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128190714) do
+ActiveRecord::Schema.define(version: 20171128201121) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -65,6 +65,14 @@ ActiveRecord::Schema.define(version: 20171128190714) do
     t.string "user_id", null: false
     t.index ["org_id", "user_id"], name: "index_org_administrations_on_org_id_and_user_id", unique: true
     t.index ["user_id", "org_id"], name: "index_org_administrations_on_user_id_and_org_id", unique: true
+  end
+
+  create_table "org_descriptions", force: :cascade do |t|
+    t.string "org_id", null: false
+    t.string "language", null: false
+    t.string "content", null: false
+    t.index ["org_id", "language"], name: "index_org_descriptions_on_org_id_and_language", unique: true
+    t.index ["org_id"], name: "index_org_descriptions_on_org_id"
   end
 
   create_table "org_types", force: :cascade do |t|

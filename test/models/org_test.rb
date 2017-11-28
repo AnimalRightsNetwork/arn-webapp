@@ -82,6 +82,27 @@ class OrgTest < ActiveSupport::TestCase
     assert_not_empty o.errors[:type]
   end
 
+  test "should save and destroy descriptions automatically" do
+    # Create event with description
+    d = new_description
+    o = new_org descriptions: [d]
+
+    # Test description unsaved before and saved after event save
+    assert d.new_record?
+    assert o.save
+    assert_not d.new_record?
+
+    # Test automatic description deletion
+    assert Org::Description.exists?(d.id)
+    assert o.destroy
+    assert_not Org::Description.exists?(d.id)
+  end
+
+  test "should not save without description" do
+    o = new_org descriptions: []
+    assert_invalid o, descriptions: :empty
+  end
+
   test "should not save without image" do
     # Test without logo url
     o = Org.new default_options.merge(
@@ -181,7 +202,8 @@ class OrgTest < ActiveSupport::TestCase
       logo_url: "orgs/logos/testorg2.png",
       cover_url: "orgs/covers/testorg2.jpg",
       marker_url: "orgs/markers/testorg2.png",
-      marker_color: '000000'
+      marker_color: '000000',
+      descriptions: [new_description]
     }.merge(params))
   end
 
@@ -195,6 +217,15 @@ class OrgTest < ActiveSupport::TestCase
     }.merge(params))
   end
 
+  # Create organization description with defaults
+  def new_description params={}
+    Org::Description.new({
+      language: I18n.locale,
+      content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
+      # Needs to be assigned to an organization
+    }.merge(params))
+  end
+
   # Deprecated "default_options" helper
   def default_options
     {
@@ -202,7 +233,8 @@ class OrgTest < ActiveSupport::TestCase
       logo_url: "logos/image.png",
       cover_url: "covers/image.png",
       marker_url: "markers/image.png",
-      marker_color: "000000"
+      marker_color: "000000",
+      descriptions: [new_description]
     }
   end
 end
