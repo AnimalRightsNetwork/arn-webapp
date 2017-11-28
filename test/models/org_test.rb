@@ -193,6 +193,40 @@ class OrgTest < ActiveSupport::TestCase
     end
   end
 
+  test "should interact with tags" do
+    # Create organization and tag
+    o = new_org
+    t = new_tag
+    assert o.save
+
+    # Test successful tag assignment
+    assert t.new_record?
+    assert o.tags << t
+    assert_not t.new_record?
+    o = Org.find o.id
+    assert o.tags.include?(t)
+
+    # Test successful tag removal
+    t = Org::Tag.find t.id
+    t.orgs.clear
+    assert o.tags.empty?
+  end
+
+  test "should prevent org tag duplicates" do
+    # Create organization and tag
+    o = new_org
+    t = new_tag
+
+    # Test adding tag first time
+    o.tags << t
+    assert o.save
+
+    # Test adding tag second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      o.tags << t
+    end
+  end
+
   # Create organization with defaults
   def new_org params={}
     Org.new({
@@ -223,6 +257,15 @@ class OrgTest < ActiveSupport::TestCase
       language: I18n.locale,
       content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
       # Needs to be assigned to an organization
+    }.merge(params))
+  end
+
+  # Create organization tag with defaults
+  def new_tag params={}
+    Org::Tag.new({
+      name: 'testtag',
+      icon_url: "orgs/tags/testtag.png",
+      color: 'ff80aa'
     }.merge(params))
   end
 
