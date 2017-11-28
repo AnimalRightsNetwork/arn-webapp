@@ -6,7 +6,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Assert record produces certain errors
-  def assert_invalid record, errors
+  def assert_invalid record, errors={}
     # Assert record to be invalid
     assert_not_predicate record, :save
 

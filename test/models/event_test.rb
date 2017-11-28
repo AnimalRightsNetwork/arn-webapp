@@ -10,6 +10,7 @@ class EventTest < ActiveSupport::TestCase
     # Test with org
     e.org = orgs(:org1)
     assert e.save
+    assert orgs(:org1).reload.events.include?(e)
   end
 
   test "should not save without type" do
@@ -20,7 +21,7 @@ class EventTest < ActiveSupport::TestCase
 
   test "should save and destroy descriptions automatically" do
     # Create event with description
-    d = new_event_description
+    d = new_description
     e = new_event descriptions: [d]
 
     # Test description unsaved before and saved after event save
@@ -54,7 +55,7 @@ class EventTest < ActiveSupport::TestCase
   # Create event with defaults
   def new_event params={}
     Event.new({
-      descriptions: [new_event_description],
+      descriptions: [new_description],
       type: event_types(:demonstration),
       name: "Test Event",
       start_time: DateTime.now
@@ -62,10 +63,11 @@ class EventTest < ActiveSupport::TestCase
   end
 
   # Create event description with defaults
-  def new_event_description params={}
+  def new_description params={}
     Event::Description.new({
       language: I18n.locale,
       content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
+      # Needs to be assigned to an event
     }.merge(params))
   end
 end
