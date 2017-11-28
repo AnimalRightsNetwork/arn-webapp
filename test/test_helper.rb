@@ -13,7 +13,7 @@ class ActiveSupport::TestCase
     # Assert specified errors to occur
     errors.each do |attr, msg|
       errs = record.errors.details[attr].map{|d| d[:error]}
-      assert_includes(errs, msg, "Expected #{msg} on #{attr} but only got #{errs.join ","}")
+      assert_includes errs, msg
     end
   end
 end

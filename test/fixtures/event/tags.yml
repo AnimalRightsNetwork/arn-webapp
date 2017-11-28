@@ -1,0 +1,9 @@
+disobedience:
+  name: disobedience
+  icon_url: events/tags/disobedience.png
+  color: 'ff0000'
+
+graphic:
+  name: graphic
+  icon_url: events/tags/graphic.png
+  color: 'ff8000'
