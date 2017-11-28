@@ -1,0 +1,7 @@
+demonstration:
+  name: demonstration
+  icon_url: events/types/demonstration.png
+
+outreach:
+  name: outreach
+  icon_url: events/types/outreach.png

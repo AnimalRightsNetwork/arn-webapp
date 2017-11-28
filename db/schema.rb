@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171127201819) do
+ActiveRecord::Schema.define(version: 20171128134107) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -24,6 +24,25 @@ ActiveRecord::Schema.define(version: 20171127201819) do
     t.string "name", null: false
     t.string "icon_url", null: false
     t.index ["name"], name: "index_event_types_on_name", unique: true
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "org_id"
+    t.integer "type_id", null: false
+    t.string "name", null: false
+    t.string "image_url"
+    t.decimal "lat"
+    t.decimal "lon"
+    t.datetime "start_time", null: false
+    t.datetime "end_time"
+    t.datetime "created_at", default: "2017-11-28 13:48:25", null: false
+    t.datetime "updated_at", default: "2017-11-28 13:48:25", null: false
+    t.index ["lat"], name: "index_events_on_lat"
+    t.index ["lon"], name: "index_events_on_lon"
+    t.index ["name"], name: "index_events_on_name"
+    t.index ["org_id"], name: "index_events_on_org_id"
+    t.index ["start_time"], name: "index_events_on_start_time"
+    t.index ["type_id"], name: "index_events_on_type_id"
   end
 
   create_table "org_types", force: :cascade do |t|

@@ -2,81 +2,94 @@ require 'test_helper'
 
 class Event::DescriptionTest < ActiveSupport::TestCase
   test "should only save with available language" do
-    return # TODO Remove when event is setup
     # Test description without language
-    d = Event::Description.new content: "Test content", event: events(:event1)
-    assert_not d.save
-    assert_not_empty d.errors[:language]
+    d = new_description language: nil
+    e = new_event descriptions: [d]
+    assert_invalid e
 
     # Test invalid language
-    d.language = 'gazorpazorp'
-    assert_not d.save
-    assert_not_empty d.errors[:language]
+    d.language = :gazorpazorp
+    assert_invalid e
 
     # Test valid language
-    d.language = I18n.available_locales[-1].to_s
-    assert d.save
+    d.language = I18n.locale
+    assert e.save
   end
 
   test "should only save with valid content" do
-    return # TODO Remove when event is setup
     # Test without content
-    d = Event::Description.new language: I18n.available_locales[-1].to_s, event: events(:event2)
-    assert_not d.save
-    assert_not_empty d.errors[:content]
+    d = new_description content: nil
+    e = new_event descriptions: [d]
+    assert_invalid e
 
     # Test with empty content
     d.content = ""
-    assert_not d.save
-    assert_not_empty d.errors[:content]
+    assert_invalid e
 
     # Test with too long content
-    d.content = "Hello" * 5000 + "."
-    assert_not d.save
-    assert_not_empty d.errors[:content]
+    d.content = "Hello" * 1000 + "."
+    assert_invalid e
 
     # Test upper limit
-    d.content = "Hello" * 5000
-    assert d.save
+    d.content = "Hello" * 1000
+    assert e.save
 
     # Test lower limit
     d.content = "H"
-    assert d.save
+    assert e.save
   end
 
   test "should enforce uniqueness of language per event" do
-    return # TODO Remove when event is setup
-    # Create descriptions
-    language1 = I18n.available_locales[0]
-    language2 = I18n.available_locales[-1]
-    d1 = Event::Description.new language: language1, content: "Test1", event: events(:event1)
-    d2 = Event::Description.new language: language1, content: "Test2", event: events(:event1)
+    # Create descriptions and events
+    l1 = I18n.available_locales[0]
+    l2 = I18n.available_locales[1]
+    d1 = new_description language: l1, content: "Test"
+    d2 = new_description language: l1, content: "Test"
+    e1 = new_event
+    e2 = new_event
 
     # Test same language and same event
-    assert d1.save
-    assert_not d2.save
-    assert_not_empty d2.errors[:language]
+    e1.descriptions << d1
+    assert e1.save
+    e1.descriptions << d2
+    assert_invalid e1
 
     # Test different languages and same event
-    d2.language = language2
-    assert d2.save
-
-    # Test same language 
-    d2.language = language1
-    d2.event = events(:event2)
-    assert d2.save
+    d2.language = l2
+    assert e1.save
   end
 
   test "should change updated_at timestamp on event model" do
-    return # TODO Remove when event is setup
-    # Get event and description
-    event = events(:event1)
-    description = event.descriptions.first
+    # Create event and description
+    d = new_description
+    e = new_event descriptions: [d]
 
-    # Change description
-    assert_difference 'event.updated_at' do
-      description.content = "Some other content"
-      assert description.save
-    end
+    # Save event
+    assert e.save
+
+    # Test updated_at change when changing description
+    updated_before = e.updated_at
+    d.content = "Some other content"
+    d.save
+    assert_not_equal e.updated_at, updated_before
+  end
+
+  # Create event with defaults
+  def new_event params={}
+    Event.new({
+      type: event_types(:demonstration),
+      name: "Test Event",
+      start_time: DateTime.now
+      # Descriptions need to be passed
+    }.merge(params))
+  end
+
+  # Create event description with defaults
+  def new_description params={}
+    Event::Description.new({
+      language: I18n.locale,
+      content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
+      # Needs to be assigned to an event
+    }.merge(params))
   end
 end
