@@ -4,6 +4,6 @@ disobedience:
   color: 'ff0000'
 
 graphic:
-  name: MyString
-  icon_url: MyString
+  name: graphic
+  icon_url: events/tags/graphic.png
   color: 'ff8000'
