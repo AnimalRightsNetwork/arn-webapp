@@ -9,8 +9,8 @@ class Event::TypeTest < ActiveSupport::TestCase
     assert_not_empty t.errors[:icon_url]
 
     # Set attributes
-    t.name = "demonstration"
-    t.icon_url = "icons/demonstration"
+    t.name = "temporary"
+    t.icon_url = "icons/temporary"
     assert t.save
   end
 end

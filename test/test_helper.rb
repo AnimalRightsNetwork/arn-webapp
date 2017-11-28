@@ -5,5 +5,15 @@ class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all
 
-  # Add more helper methods to be used by all tests here...
+  # Assert record produces certain errors
+  def assert_invalid record, errors
+    # Assert record to be invalid
+    assert_not_predicate record, :save
+
+    # Assert specified errors to occur
+    errors.each do |attr, msg|
+      errs = record.errors.details[attr].map{|d| d[:error]}
+      assert_includes(errs, msg, "Expected #{msg} on #{attr} but only got #{errs.join ","}")
+    end
+  end
 end

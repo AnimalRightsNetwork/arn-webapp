@@ -1,0 +1,14 @@
+event1:
+  org: org1
+  type: demonstration
+  name: Event 1
+  image_url: events/event1.png
+  lat: 52.52201
+  lon: 13.41233
+  start_time: 2017-12-03 18:00:00
+  end_time: 2017-12-03 20:00:00
+
+event2:
+  type: outreach
+  name: Event 1
+  start_time: 2017-10-03 15:00:00
