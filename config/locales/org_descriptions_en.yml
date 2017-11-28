@@ -1,0 +1,9 @@
+---
+de:
+  activerecord:
+    models:
+      org/description: { one: "Beschreibung", other: "Beschreibungen" }
+    attributes:
+      org/description:
+        language: "Sprache"
+        content: "Inhalt"
