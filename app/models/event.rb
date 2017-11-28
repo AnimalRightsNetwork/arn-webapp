@@ -3,7 +3,7 @@ class Event < ApplicationRecord
   belongs_to :org, optional: true
   belongs_to :type
   has_many :descriptions, autosave: true, dependent: :destroy
-  has_and_belongs_to_many :tags, association_foreign_key: :event_tag_id, validate: false
+  has_and_belongs_to_many :tags, association_foreign_key: :event_tag_id
 
   # Validate event name
   validates :name, length: {minimum: 4, maximum: 64}, presence: true
