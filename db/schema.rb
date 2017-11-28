@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128134107) do
+ActiveRecord::Schema.define(version: 20171128151045) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -18,6 +18,13 @@ ActiveRecord::Schema.define(version: 20171128134107) do
     t.string "content", null: false
     t.index ["event_id", "language"], name: "index_event_descriptions_on_event_id_and_language", unique: true
     t.index ["event_id"], name: "index_event_descriptions_on_event_id"
+  end
+
+  create_table "event_tags", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "icon_url", null: false
+    t.string "color", null: false
+    t.index ["name"], name: "index_event_tags_on_name", unique: true
   end
 
   create_table "event_types", force: :cascade do |t|
