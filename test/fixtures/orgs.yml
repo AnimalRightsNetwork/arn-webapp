@@ -8,6 +8,7 @@ org1:
   video_url: orgs/videos/testorg1.mp4
   marker_url: orgs/markers/testorg1.png
   marker_color: "000000"
+  admins: user1, user2
 
 org2:
   id: testorg2

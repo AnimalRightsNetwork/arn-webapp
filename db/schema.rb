@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171128183349) do
+ActiveRecord::Schema.define(version: 20171128190714) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20171128183349) do
     t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-28 18:42:14", null: false
-    t.datetime "updated_at", default: "2017-11-28 18:42:14", null: false
+    t.datetime "created_at", default: "2017-11-28 19:28:46", null: false
+    t.datetime "updated_at", default: "2017-11-28 19:28:46", null: false
     t.integer "event_type_id"
     t.string "fb_url"
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 20171128183349) do
     t.index ["name"], name: "index_events_on_name"
     t.index ["org_id"], name: "index_events_on_org_id"
     t.index ["start_time"], name: "index_events_on_start_time"
+  end
+
+  create_table "org_administrations", id: false, force: :cascade do |t|
+    t.string "org_id", null: false
+    t.string "user_id", null: false
+    t.index ["org_id", "user_id"], name: "index_org_administrations_on_org_id_and_user_id", unique: true
+    t.index ["user_id", "org_id"], name: "index_org_administrations_on_user_id_and_org_id", unique: true
   end
 
   create_table "org_types", force: :cascade do |t|
