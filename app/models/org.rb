@@ -5,7 +5,7 @@ class Org < ApplicationRecord
 
   # Validate organization id length and character restrictions
   validates :id, length: {minimum: 4, maximum: 30}, uniqueness: true,
-    format: { with: /\A[a-z0-9]*\z/, message: :invalid_characters }, presence: true
+    format: { with: /\A[a-z0-9]*\z/, error: :invalid_characters }, presence: true
 
   # Validate name
   validates :name, length: { minimum: 4, maximum: 30 }, uniqueness: true, presence: true
@@ -15,7 +15,7 @@ class Org < ApplicationRecord
 
   # Validate color format
   validates :marker_color, length: { is: 6 },
-    format: { with: /\A[0-9a-f]*\z/, message: :invalid_characters }, presence: true
+    format: { with: /\A[0-9a-f]*\z/, error: :invalid_characters }, presence: true
 
   # Make id only writable via display_id
   private :id=
