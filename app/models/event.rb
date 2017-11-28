@@ -1,7 +1,7 @@
 class Event < ApplicationRecord
   # Associations
   belongs_to :org, optional: true
-  belongs_to :type
+  belongs_to :type, foreign_key: :event_type_id
   has_many :descriptions, autosave: true, dependent: :destroy
   has_and_belongs_to_many :tags, association_foreign_key: :event_tag_id
 
