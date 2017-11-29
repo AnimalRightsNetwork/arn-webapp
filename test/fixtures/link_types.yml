@@ -1,0 +1,11 @@
+website:
+  name: website
+  icon_url: link_types/website.png
+
+email:
+  name: email
+  icon_url: link_types/email.png
+
+facebook:
+  name: facebook
+  icon_url: link_types/facebook.png
