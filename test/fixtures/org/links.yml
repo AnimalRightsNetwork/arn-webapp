@@ -1,0 +1,9 @@
+org1_web:
+  org: org1
+  link_type: website
+  url: https://testorg1.com/
+
+org1_fb:
+  org: org1
+  link_type: facebook
+  url: https://facebook.com/TestOrg1
