@@ -244,7 +244,7 @@ class OrgTest < ActiveSupport::TestCase
   # Create user with defaults
   def new_user params={}
     User.new({
-      id: 'testuser',
+      display_id: 'TestUser',
       email: "testuser@example.com",
       password: 'TestPassw0rd',
       password_confirmation: 'TestPassw0rd'
