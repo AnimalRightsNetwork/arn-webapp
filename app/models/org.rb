@@ -1,6 +1,6 @@
 class Org < ApplicationRecord
   # Associations
-  belongs_to :type
+  belongs_to :type, foreign_key: :org_type_id
   has_and_belongs_to_many :tags, association_foreign_key: :org_tag_id
   has_many :descriptions, autosave: true, dependent: :destroy
   has_many :links, autosave: true, dependent: :destroy

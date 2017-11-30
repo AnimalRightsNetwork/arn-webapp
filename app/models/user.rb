@@ -30,6 +30,13 @@ class User < ApplicationRecord
   # Validate admin presence
   validates :admin, inclusion: { in: [true, false] }
 
+  # Make id only writable via display_id
+  private :id=
+  def display_id= display_id
+    self.id = display_id&.downcase
+    super(display_id)
+  end
+
   # Handle user activation
   def activate token
     if !activated? && User.password_matches?(activation_digest, token)

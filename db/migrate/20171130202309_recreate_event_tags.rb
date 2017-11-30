@@ -1,6 +1,6 @@
-class CreateEventTags < ActiveRecord::Migration[5.1]
+class RecreateEventTags < ActiveRecord::Migration[5.1]
   def change
-    create_table :event_tags do |t|
+    create_table :event_tags, force: true do |t|
       t.string :name, null: false
       t.string :icon_url, null: false
       t.string :color, null: false

@@ -1,6 +1,6 @@
-class CreateEventTypes < ActiveRecord::Migration[5.1]
+class RecreateEventTypes < ActiveRecord::Migration[5.1]
   def change
-    create_table :event_types do |t|
+    create_table :event_types, force: true do |t|
       t.string :name, null: false
       t.string :icon_url, null: false
     end

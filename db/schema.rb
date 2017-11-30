@@ -10,14 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129002415) do
+ActiveRecord::Schema.define(version: 20171130203727) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
     t.string "language", null: false
     t.string "content", null: false
     t.index ["event_id", "language"], name: "index_event_descriptions_on_event_id_and_language", unique: true
-    t.index ["event_id"], name: "index_event_descriptions_on_event_id"
   end
 
   create_table "event_tags", force: :cascade do |t|
@@ -42,19 +41,18 @@ ActiveRecord::Schema.define(version: 20171129002415) do
 
   create_table "events", force: :cascade do |t|
     t.string "org_id"
+    t.integer "event_type_id", null: false
     t.string "name", null: false
     t.string "image_url"
-    t.decimal "lat"
-    t.decimal "lon"
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lon", precision: 10, scale: 6
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-29 01:15:18", null: false
-    t.datetime "updated_at", default: "2017-11-29 01:15:18", null: false
-    t.integer "event_type_id"
     t.string "fb_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
-    t.index ["lat"], name: "index_events_on_lat"
-    t.index ["lon"], name: "index_events_on_lon"
+    t.index ["lat", "lon"], name: "index_events_on_lat_and_lon"
     t.index ["name"], name: "index_events_on_name"
     t.index ["org_id"], name: "index_events_on_org_id"
     t.index ["start_time"], name: "index_events_on_start_time"
@@ -78,10 +76,9 @@ ActiveRecord::Schema.define(version: 20171129002415) do
     t.string "language", null: false
     t.string "content", null: false
     t.index ["org_id", "language"], name: "index_org_descriptions_on_org_id_and_language", unique: true
-    t.index ["org_id"], name: "index_org_descriptions_on_org_id"
   end
 
-  create_table "org_links", id: false, force: :cascade do |t|
+  create_table "org_links", force: :cascade do |t|
     t.string "org_id", null: false
     t.integer "link_type_id", null: false
     t.string "url", null: false
@@ -96,40 +93,42 @@ ActiveRecord::Schema.define(version: 20171129002415) do
   end
 
   create_table "org_tags_orgs", id: false, force: :cascade do |t|
-    t.integer "org_tag_id", null: false
     t.string "org_id", null: false
+    t.integer "org_tag_id", null: false
     t.index ["org_id", "org_tag_id"], name: "index_org_tags_orgs_on_org_id_and_org_tag_id", unique: true
     t.index ["org_tag_id", "org_id"], name: "index_org_tags_orgs_on_org_tag_id_and_org_id", unique: true
   end
 
   create_table "org_types", force: :cascade do |t|
-    t.string "name"
-    t.string "icon_url"
+    t.string "name", null: false
+    t.string "icon_url", null: false
+    t.index ["name"], name: "index_org_types_on_name", unique: true
   end
 
   create_table "orgs", id: :string, force: :cascade do |t|
-    t.string "display_id"
-    t.integer "type_id"
-    t.string "name"
-    t.string "logo_url"
-    t.string "cover_url"
+    t.string "display_id", null: false
+    t.integer "org_type_id", null: false
+    t.string "name", null: false
+    t.string "logo_url", null: false
+    t.string "cover_url", null: false
     t.string "video_url"
-    t.string "marker_url"
-    t.string "marker_color"
+    t.string "marker_url", null: false
+    t.string "marker_color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["id"], name: "sqlite_autoindex_orgs_1", unique: true
-    t.index ["name"], name: "index_orgs_on_name"
-    t.index ["type_id"], name: "index_orgs_on_type_id"
+    t.index ["name"], name: "index_orgs_on_name", unique: true
+    t.index ["org_type_id"], name: "index_orgs_on_org_type_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
-    t.string "password_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email"
+    t.string "display_id", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
     t.string "activation_digest"
     t.boolean "admin", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["id"], name: "sqlite_autoindex_users_1", unique: true
   end

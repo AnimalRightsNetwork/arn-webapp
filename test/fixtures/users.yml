@@ -1,5 +1,6 @@
 user1:
   id: user1
+  display_id: User1
   email: user1@example.com
   password_digest: <%= User.password_digest "password1" %>
   activation_digest: <%= User.password_digest "activation1" %>
@@ -7,6 +8,7 @@ user1:
 
 user2:
   id: user2
+  display_id: User2
   email: user2@example.com
   password_digest: <%= User.password_digest "password2" %>
   activation_digest: null
@@ -14,6 +16,7 @@ user2:
 
 user3:
   id: user3
+  display_id: User3
   email: user3@example.com
   password_digest: <%= User.password_digest "password3" %>
   activation_digest: null
