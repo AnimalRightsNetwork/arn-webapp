@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130195504) do
+ActiveRecord::Schema.define(version: 20171130200401) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -42,19 +42,18 @@ ActiveRecord::Schema.define(version: 20171130195504) do
 
   create_table "events", force: :cascade do |t|
     t.string "org_id"
+    t.integer "event_type_id", null: false
     t.string "name", null: false
     t.string "image_url"
-    t.decimal "lat"
-    t.decimal "lon"
+    t.decimal "lat", precision: 10, scale: 6
+    t.decimal "lon", precision: 10, scale: 6
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-30 19:52:48", null: false
-    t.datetime "updated_at", default: "2017-11-30 19:52:48", null: false
-    t.integer "event_type_id"
     t.string "fb_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
-    t.index ["lat"], name: "index_events_on_lat"
-    t.index ["lon"], name: "index_events_on_lon"
+    t.index ["lat", "lon"], name: "index_events_on_lat_and_lon"
     t.index ["name"], name: "index_events_on_name"
     t.index ["org_id"], name: "index_events_on_org_id"
     t.index ["start_time"], name: "index_events_on_start_time"
