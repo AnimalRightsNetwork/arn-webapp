@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130185139) do
+ActiveRecord::Schema.define(version: 20171130192136) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20171130185139) do
     t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-30 19:14:58", null: false
-    t.datetime "updated_at", default: "2017-11-30 19:14:58", null: false
+    t.datetime "created_at", default: "2017-11-30 19:26:16", null: false
+    t.datetime "updated_at", default: "2017-11-30 19:26:16", null: false
     t.integer "event_type_id"
     t.string "fb_url"
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
@@ -103,8 +103,9 @@ ActiveRecord::Schema.define(version: 20171130185139) do
   end
 
   create_table "org_types", force: :cascade do |t|
-    t.string "name"
-    t.string "icon_url"
+    t.string "name", null: false
+    t.string "icon_url", null: false
+    t.index ["name"], name: "index_org_types_on_name", unique: true
   end
 
   create_table "orgs", id: :string, force: :cascade do |t|
