@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130152336) do
+ActiveRecord::Schema.define(version: 20171130185139) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20171130152336) do
     t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-30 18:47:30", null: false
-    t.datetime "updated_at", default: "2017-11-30 18:47:30", null: false
+    t.datetime "created_at", default: "2017-11-30 19:14:58", null: false
+    t.datetime "updated_at", default: "2017-11-30 19:14:58", null: false
     t.integer "event_type_id"
     t.string "fb_url"
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
@@ -108,19 +108,19 @@ ActiveRecord::Schema.define(version: 20171130152336) do
   end
 
   create_table "orgs", id: :string, force: :cascade do |t|
-    t.string "display_id"
-    t.integer "type_id"
-    t.string "name"
-    t.string "logo_url"
-    t.string "cover_url"
+    t.string "display_id", null: false
+    t.integer "org_type_id", null: false
+    t.string "name", null: false
+    t.string "logo_url", null: false
+    t.string "cover_url", null: false
     t.string "video_url"
-    t.string "marker_url"
-    t.string "marker_color"
+    t.string "marker_url", null: false
+    t.string "marker_color", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["id"], name: "sqlite_autoindex_orgs_1", unique: true
-    t.index ["name"], name: "index_orgs_on_name"
-    t.index ["type_id"], name: "index_orgs_on_type_id"
+    t.index ["name"], name: "index_orgs_on_name", unique: true
+    t.index ["org_type_id"], name: "index_orgs_on_org_type_id"
   end
 
   create_table "users", id: :string, force: :cascade do |t|
