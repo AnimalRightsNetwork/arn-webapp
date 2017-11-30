@@ -48,8 +48,8 @@ ActiveRecord::Schema.define(version: 20171130152336) do
     t.decimal "lon"
     t.datetime "start_time", null: false
     t.datetime "end_time"
-    t.datetime "created_at", default: "2017-11-30 18:37:06", null: false
-    t.datetime "updated_at", default: "2017-11-30 18:37:06", null: false
+    t.datetime "created_at", default: "2017-11-30 18:47:30", null: false
+    t.datetime "updated_at", default: "2017-11-30 18:47:30", null: false
     t.integer "event_type_id"
     t.string "fb_url"
     t.index ["event_type_id"], name: "index_events_on_event_type_id"
