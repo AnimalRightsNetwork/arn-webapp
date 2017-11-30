@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130202820) do
+ActiveRecord::Schema.define(version: 20171130203322) do
 
   create_table "event_descriptions", force: :cascade do |t|
     t.integer "event_id", null: false
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(version: 20171130202820) do
   end
 
   create_table "org_tags_orgs", id: false, force: :cascade do |t|
-    t.integer "org_tag_id", null: false
     t.string "org_id", null: false
+    t.integer "org_tag_id", null: false
     t.index ["org_id", "org_tag_id"], name: "index_org_tags_orgs_on_org_id_and_org_tag_id", unique: true
     t.index ["org_tag_id", "org_id"], name: "index_org_tags_orgs_on_org_tag_id_and_org_id", unique: true
   end
