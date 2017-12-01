@@ -1,4 +1,8 @@
 class LinkType < ApplicationRecord
+  ###############
+  # Validations #
+  ###############
+
   # Validate name uniqueness and presence
   validates :name, uniqueness: true, presence: true
 

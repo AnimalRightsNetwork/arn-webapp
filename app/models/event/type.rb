@@ -1,6 +1,13 @@
 class Event::Type < ApplicationRecord
-  # Associations
+  ################
+  # Associations #
+  ################
+
   has_many :events, foreign_key: :event_type_id, dependent: :restrict_with_error
+
+  ###############
+  # Validations #
+  ###############
 
   # Validate name uniqueness and presence
   validates :name, uniqueness: true, presence: true

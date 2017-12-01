@@ -13,7 +13,7 @@ class OrgTest < ActiveSupport::TestCase
     assert_not_empty o.errors[:id]
 
     # Test too long id
-    o = Org.new(default_options.merge display_id: 'A' * 31, name: "ID Test 3")
+    o = Org.new(default_options.merge display_id: 'A' * 33, name: "ID Test 3")
     assert_not o.save
     assert_not_empty o.errors[:id]
     
@@ -22,7 +22,7 @@ class OrgTest < ActiveSupport::TestCase
     assert o.save
 
     # Test upper limit
-    o = Org.new(default_options.merge display_id: 'A' * 30, name: "ID Test 5")
+    o = Org.new(default_options.merge display_id: 'A' * 32, name: "ID Test 5")
     assert o.save
 
     # Test invalid character

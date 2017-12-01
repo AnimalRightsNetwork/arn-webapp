@@ -1,34 +1,15 @@
 class User < ApplicationRecord
-  # Associations
-  has_and_belongs_to_many :administrated_orgs, class_name: :Org, join_table: :org_administrations
-
   # Include random token functionality
   include RandomToken
 
-  # Set default values
+  # Setup
   after_initialize :set_default_values, if: :new_record?
-
-  # Setup activation token
-  attr_reader :activation_token
   before_create :create_activation_token
-
-  # Validate user id length and character restriction
-  validates :id, length: { minimum: 5, maximum: 20 }, uniqueness: true,
-    format: { with: /\A[a-z0-9_]*\z/, error: :invalid_characters}, presence: true
-
-  # Validate valid email address
-  validates :email, email_format: true, uniqueness: true, presence: true
-
-  # Add password digest and password confirmation handling
   has_secure_password
 
-  # Validate password presence, length and complexity
-  validates :password, length: {minimum: 8, maximum: 64}, allow_nil: true
-  validates :password_confirmation, presence: true, if: :password_digest_changed?
-  validate :password_complexity
-
-  # Validate admin presence
-  validates :admin, inclusion: { in: [true, false] }
+  ######################
+  # Attribute handling #
+  ######################
 
   # Make id only writable via display_id
   private :id=
@@ -36,6 +17,41 @@ class User < ApplicationRecord
     self.id = display_id&.downcase
     super(display_id)
   end
+
+  # Create activation token reader
+  attr_reader :activation_token
+
+  ################
+  # Associations #
+  ################
+
+  has_and_belongs_to_many :administrated_orgs, class_name: :Org, join_table: :org_administrations
+
+  ###############
+  # Validations #
+  ###############
+
+  # Validate user id length and character restriction
+  validates :id, length: { minimum: 5, maximum: 25 }, uniqueness: true,
+    format: { with: /\A[a-z0-9]*\z/, error: :invalid_characters}, presence: true
+
+  # Validate valid email address
+  validates :email, email_format: true, uniqueness: true, presence: true
+
+  # Validate password presence, length and complexity
+  validates :password, length: { minimum: 8, maximum: 64 }, allow_nil: true
+  validates :password_confirmation, presence: true, if: :password_digest_changed?
+  validate :password_complexity
+
+  # Validate activation digest
+  validates :activation_digest, presence: true, allow_nil: true
+
+  # Validate admin presence
+  validates :admin, inclusion: { in: [true, false] }
+
+  #################
+  # Functionality #
+  #################
 
   # Handle user activation
   def activate token
@@ -51,15 +67,14 @@ class User < ApplicationRecord
     activation_digest == nil
   end
 
-  # Helper methods
+  ###########
+  # Helpers #
+  ###########
   private
     # Require password to contain upper case, lower case and digits
-    # and length of 8 to 64 characters
     def password_complexity
-      unless password.nil?
-        unless password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/)
-          errors.add :password, :insufficient_complexity
-        end
+      unless password.nil? || password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/)
+        errors.add :password, :insufficient_complexity
       end
     end
 
