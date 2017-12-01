@@ -1,9 +1,0 @@
-voluntary:
-  name: voluntary
-  icon_url: orgs/tags/voluntary.png
-  color: '0000ff'
-
-research:
-  name: research
-  icon_url: orgs/research/graphic.png
-  color: '00ff00'
