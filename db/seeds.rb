@@ -159,7 +159,7 @@ Event.create([
     start_time: DateTime.new(2017, 12, 7, 18, 0, 0),
     end_time: DateTime.new(2017, 12, 7, 21, 0, 0),
     fb_url: "https://www.facebook.com/events/146170619351524/",
-    tags: [ Event::Tag.find_by(name: 'disobedience') ],
+    tags: [ Event::Tag.find_by(name: 'graphic') ],
     descriptions: [
       Event::Description.new(
         language: :de,
