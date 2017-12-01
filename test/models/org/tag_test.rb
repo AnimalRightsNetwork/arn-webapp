@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class Org::TagTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save if name is present" do
     # Test without name
-    t = new_tag name: nil
+    t = new_org_tag name: nil
     assert_invalid t, name: :blank
 
     # Test with empty name
@@ -11,20 +13,20 @@ class Org::TagTest < ActiveSupport::TestCase
     assert_invalid t, name: :blank
 
     # Test with valid name
-    t.name = 'testtag'
+    t.name = "testtag"
     assert t.save
   end
 
   test "should not save with duplicate name" do
-    t1 = new_tag
-    t2 = new_tag
+    t1 = new_org_tag
+    t2 = new_org_tag
     assert t1.save
     assert_invalid t2, name: :taken
   end
 
   test "should only save if icon url is present" do
     # Test without icon url
-    t = new_tag icon_url: nil
+    t = new_org_tag icon_url: nil
     assert_invalid t, icon_url: :blank
 
     # Test with empty icon url
@@ -38,7 +40,7 @@ class Org::TagTest < ActiveSupport::TestCase
 
   test "should only save with valid color" do
     # Test without color
-    t = new_tag color: nil
+    t = new_org_tag color: nil
     assert_invalid t, color: :blank
 
     # Test with empty color
@@ -62,11 +64,37 @@ class Org::TagTest < ActiveSupport::TestCase
     assert t.save
   end
 
-  def new_tag params={}
-    Org::Tag.new({
-      name: 'testtag',
-      icon_url: 'orgs/tags/testtag.png',
-      color: '0f0f0f'
-    }.merge(params))
+  test "should interact with orgs" do
+    # Create organization and tag
+    o = new_org
+    t = new_org_tag
+    assert o.save
+
+    # Test successful tag assignment
+    assert t.new_record?
+    assert o.tags << t
+    assert_not t.new_record?
+    o = Org.find o.id
+    assert o.tags.include?(t)
+
+    # Test successful tag removal
+    t = Org::Tag.find t.id
+    t.orgs.clear
+    assert o.tags.empty?
+  end
+
+  test "should prevent duplicates" do
+    # Create organization and tag
+    o = new_org
+    t = new_org_tag
+
+    # Test adding tag first time
+    o.tags << t
+    assert o.save
+
+    # Test adding tag second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      o.tags << t
+    end
   end
 end

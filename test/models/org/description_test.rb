@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class Org::DescriptionTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save with available language" do
     # Test description without language
-    d = new_description language: nil
+    d = new_org_description language: nil
     o = new_org descriptions: [d]
     assert_invalid o
 
@@ -18,7 +20,7 @@ class Org::DescriptionTest < ActiveSupport::TestCase
 
   test "should only save with valid content" do
     # Test without content
-    d = new_description content: nil
+    d = new_org_description content: nil
     o = new_org descriptions: [d]
     assert_invalid o
 
@@ -43,10 +45,10 @@ class Org::DescriptionTest < ActiveSupport::TestCase
     # Create descriptions and organizations
     l1 = I18n.available_locales[0]
     l2 = I18n.available_locales[1]
-    d1 = new_description language: l1, content: "Test"
-    d2 = new_description language: l1, content: "Test"
-    o1 = new_org display_id: "Org1", name: "Organization 1"
-    o2 = new_org display_id: "Org2", name: "Organization 2"
+    d1 = new_org_description language: l1, content: "Test"
+    d2 = new_org_description language: l1, content: "Test"
+    o1 = new_org display_id: "Org1", name: "Organization 1", descriptions: []
+    o2 = new_org display_id: "Org2", name: "Organization 2", descriptions: []
 
     # Test same language and same organization
     o1.descriptions << d1
@@ -61,39 +63,16 @@ class Org::DescriptionTest < ActiveSupport::TestCase
 
   test "should change updated_at timestamp on organization model" do
     # Create organization and description
-    d = new_description
+    d = new_org_description
     o = new_org descriptions: [d]
 
     # Save organization
     assert o.save
 
     # Test updated_at change when changing description
-    updated_before = o.updated_at
-    d.content = "Some other content"
-    d.save
-    assert_not_equal o.updated_at, updated_before
-  end
-
-  # Create organization with defaults
-  def new_org params={}
-    Org.new({
-      display_id: 'TestOrganization',
-      type: Org::Type.find_by(name: :association),
-      name: "Test Organization",
-      logo_url: "orgs/logos/testorg2.png",
-      cover_url: "orgs/covers/testorg2.jpg",
-      marker_url: "orgs/markers/testorg2.png",
-      marker_color: '000000'
-      # Descriptions need to be passed
-    }.merge(params))
-  end
-
-  # Create organization description with defaults
-  def new_description params={}
-    Org::Description.new({
-      language: I18n.locale,
-      content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
-      # Needs to be assigned to an organization
-    }.merge(params))
+    assert_changes 'o.updated_at' do
+      d.content = "Some other content"
+      d.save
+    end
   end
 end

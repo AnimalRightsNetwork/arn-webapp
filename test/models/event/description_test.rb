@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class Event::DescriptionTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save with available language" do
     # Test description without language
-    d = new_description language: nil
+    d = new_event_description language: nil
     e = new_event descriptions: [d]
     assert_invalid e
 
@@ -18,7 +20,7 @@ class Event::DescriptionTest < ActiveSupport::TestCase
 
   test "should only save with valid content" do
     # Test without content
-    d = new_description content: nil
+    d = new_event_description content: nil
     e = new_event descriptions: [d]
     assert_invalid e
 
@@ -43,10 +45,10 @@ class Event::DescriptionTest < ActiveSupport::TestCase
     # Create descriptions and events
     l1 = I18n.available_locales[0]
     l2 = I18n.available_locales[1]
-    d1 = new_description language: l1, content: "Test"
-    d2 = new_description language: l1, content: "Test"
-    e1 = new_event
-    e2 = new_event
+    d1 = new_event_description language: l1, content: "Test"
+    d2 = new_event_description language: l1, content: "Test"
+    e1 = new_event descriptions: []
+    e2 = new_event descriptions: []
 
     # Test same language and same event
     e1.descriptions << d1
@@ -61,35 +63,16 @@ class Event::DescriptionTest < ActiveSupport::TestCase
 
   test "should change updated_at timestamp on event model" do
     # Create event and description
-    d = new_description
+    d = new_event_description
     e = new_event descriptions: [d]
 
     # Save event
     assert e.save
 
     # Test updated_at change when changing description
-    updated_before = e.updated_at
-    d.content = "Some other content"
-    d.save
-    assert_not_equal e.updated_at, updated_before
-  end
-
-  # Create event with defaults
-  def new_event params={}
-    Event.new({
-      type: event_types(:demonstration),
-      name: "Test Event",
-      start_time: DateTime.now
-      # Descriptions need to be passed
-    }.merge(params))
-  end
-
-  # Create event description with defaults
-  def new_description params={}
-    Event::Description.new({
-      language: I18n.locale,
-      content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
-      # Needs to be assigned to an event
-    }.merge(params))
+    assert_changes 'e.updated_at' do
+      d.content = "Some other content"
+      d.save
+    end
   end
 end
