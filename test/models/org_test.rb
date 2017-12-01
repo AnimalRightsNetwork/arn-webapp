@@ -1,71 +1,58 @@
 require 'test_helper'
 
 class OrgTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save valid organization ids" do
     # Test no id
-    o = Org.new(default_options.merge name: "ID Test 1")
-    assert_not o.save
-    assert_not_empty o.errors[:id]
+    o = new_org display_id: nil
+    assert_invalid o, id: :blank
 
     ## Test too short id
-    o = Org.new(default_options.merge display_id: 'Sht', name: "ID Test 2")
-    assert_not o.save
-    assert_not_empty o.errors[:id]
+    o.display_id = 'Sht'
+    assert_invalid o, id: :too_short
 
     # Test too long id
-    o = Org.new(default_options.merge display_id: 'A' * 33, name: "ID Test 3")
-    assert_not o.save
-    assert_not_empty o.errors[:id]
+    o.display_id = 'A' * 33
+    assert_invalid o, id: :too_long
     
     # Test lower limit
-    o = Org.new(default_options.merge display_id: 'Abcd', name: "ID Test 4")
+    o = new_org display_id: 'Abcd', name: "Lower"
     assert o.save
 
     # Test upper limit
-    o = Org.new(default_options.merge display_id: 'A' * 32, name: "ID Test 5")
+    o = new_org display_id: 'A' * 32, name: "Upper", type: o.type
     assert o.save
 
     # Test invalid character
-    o = Org.new(default_options.merge display_id: 'Hello You', name: "ID Test 6")
-    assert_not o.save
-    assert_not_empty o.errors[:id]
+    o = new_org display_id: 'Inv^alid'
+    assert_invalid o, id: :invalid_characters
   end
 
   test "should enforce id uniqueness" do
-    o1 = Org.new(default_options.merge display_id: 'Duplicate', name: "ID Test 7")
-    o2 = Org.new(default_options.merge display_id: 'DupliCate', name: "ID Test 8")
+    o1 = new_org display_id: 'Duplicate', name: "Dup 1"
+    o2 = new_org display_id: 'DupliCate', name: "Dup 2"
     assert o1.save
-    assert_not o2.save
-    assert_not_empty o2.errors[:id]
+    assert_invalid o2, id: :taken
   end
 
   test "should only make id accessible through display_id" do
     # Test id mass assignment
-    assert_raises NoMethodError do
-      o = Org.new(default_options.merge id: 'displayid', display_id: "DisplayID", name: "ID Test 9")
-    end
+    assert_raises NoMethodError do new_org(id: 'directassignment') end
 
     # Test id auto assignment
-    o = Org.new(default_options.merge display_id: 'DisplayId', name: "ID Test 10")
+    o = new_org display_id: "DisplayID"
     assert_equal o.id, o.display_id.downcase
 
     # Test direct id assignment
-    assert_raises NoMethodError do
-      o.id = 'newid'
-    end
+    assert_raises NoMethodError do o.id = 'newid' end
   end
 
   test "should allow subsequent display_id assignment" do
     assert_nothing_raised do
       # Test without display id
-      o = Org.new(default_options.merge name: "ID Test 11")
-      assert_not o.save
-      assert_not_empty o.errors[:id]
-
-      # Test assigning nil
-      o.display_id = nil
-      assert_not o.save
-      assert_not_empty o.errors[:id]
+      o = new_org display_id: nil
+      assert_invalid o, id: :blank
 
       # Test assigning valid id
       o.display_id = 'ValidID'
@@ -75,16 +62,13 @@ class OrgTest < ActiveSupport::TestCase
 
   test "should not save without type" do
     # Test without type
-    o = Org.new(
-      default_options.merge display_id: 'Typeless', name: "Typeless", type: nil
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:type]
+    o = new_org type: nil
+    assert_invalid o, type: :blank
   end
 
   test "should save and destroy descriptions automatically" do
     # Create event with description
-    d = new_description
+    d = new_org_description
     o = new_org descriptions: [d]
 
     # Test description unsaved before and saved after event save
@@ -103,60 +87,55 @@ class OrgTest < ActiveSupport::TestCase
     assert_invalid o, descriptions: :empty
   end
 
-  test "should not save without image" do
-    # Test without logo url
-    o = Org.new default_options.merge(
-      display_id: 'Imageless', name: "Imageless", logo_url: nil
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:logo_url]
+  test "should only save with valid name" do
+    # Test without name
+    o = new_org name: nil
+    assert_invalid o, name: :blank
 
-    # Test without cover url
-    o = Org.new default_options.merge(
-      display_id: 'Imageless', name: "Imageless", cover_url: nil
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:cover_url]
-    
-    # Test without marker url
-    o = Org.new default_options.merge(
-      display_id: 'Imageless', name: "Imageless", marker_url: nil
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:marker_url]
+    # Test empty name
+    o.name = ""
+    assert_invalid o, name: :blank
+
+    # Test too short name
+    o.name = "ABC"
+    assert_invalid o, name: :too_short
+
+    # Test too long name
+    o.name = "A" * 49
+    assert_invalid o, name: :too_long
+
+    # Test lower limit
+    o.name = "ABCD"
+    assert o.save
+
+    # Test upper limit
+    o.name = "A" * 48
+    assert o.save
+  end
+
+  test "should enforce name uniqueness" do
+    o1 = new_org display_id: "Unique1", name: "Unique"
+    o2 = new_org display_id: "Unique2", name: "Unique"
+  end
+
+  test "should not save without image" do
+    # Test without image urls
+    o = new_org logo_url: nil, cover_url: nil, marker_url: nil
+    assert_invalid o, logo_url: :blank, cover_url: :blank, marker_url: :blank
   end
 
   test "should not save without valid color" do
     # Test without marker color
-    o = Org.new default_options.merge(
-      display_id: 'Colorless', name: "Colorless", marker_color: nil
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:marker_color]
+    o = new_org marker_color: nil
+    assert_invalid o, marker_color: :blank
 
-    # Test without too short marker color
-    o = Org.new default_options.merge(
-      display_id: 'Colorless', name: "Colorless", marker_color: "000"
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:marker_color]
+    # Test too short marker color
+    o.marker_color = "000"
+    assert_invalid o, marker_color: :wrong_length
 
-    # Test without invalid characters
-    o = Org.new default_options.merge(
-      display_id: 'Colorless', name: "Colorless", marker_color: "yellow"
-    )
-    assert_not o.save
-    assert_not_empty o.errors[:marker_color]
-  end
-
-  test "should not destroy type if associated with organization" do
-    t = Org::Type.new name: 'undestructable', icon_url: 'org_types/undestructable.png'
-    o = Org.new(default_options.merge display_id: 'Typed', name: "Typed", type: t)
-    assert t.save
-    assert o.save
-    assert_not t.destroy
-    assert o.destroy
-    assert t.destroy
+    # Test with invalid characters
+    o.marker_color = "0agf00"
+    assert_invalid o, marker_color: :invalid_characters
   end
 
   test "should interact with admins" do
@@ -178,7 +157,7 @@ class OrgTest < ActiveSupport::TestCase
     assert o.admins.empty?
   end
 
-  test "should prevent event tag duplicates" do
+  test "should prevent admin duplicates" do
     # Create organization and user
     o = new_org
     u = new_user
@@ -191,93 +170,5 @@ class OrgTest < ActiveSupport::TestCase
     assert_raises ActiveRecord::RecordNotUnique do
       o.admins << u
     end
-  end
-
-  test "should interact with tags" do
-    # Create organization and tag
-    o = new_org
-    t = new_tag
-    assert o.save
-
-    # Test successful tag assignment
-    assert t.new_record?
-    assert o.tags << t
-    assert_not t.new_record?
-    o = Org.find o.id
-    assert o.tags.include?(t)
-
-    # Test successful tag removal
-    t = Org::Tag.find t.id
-    t.orgs.clear
-    assert o.tags.empty?
-  end
-
-  test "should prevent org tag duplicates" do
-    # Create organization and tag
-    o = new_org
-    t = new_tag
-
-    # Test adding tag first time
-    o.tags << t
-    assert o.save
-
-    # Test adding tag second time
-    assert_raises ActiveRecord::RecordNotUnique do
-      o.tags << t
-    end
-  end
-
-  # Create organization with defaults
-  def new_org params={}
-    Org.new({
-      display_id: "TestOrganization",
-      type: Org::Type.find_by(name: :association),
-      name: "Test Organization",
-      logo_url: "orgs/logos/testorg2.png",
-      cover_url: "orgs/covers/testorg2.jpg",
-      marker_url: "orgs/markers/testorg2.png",
-      marker_color: '000000',
-      descriptions: [new_description]
-    }.merge(params))
-  end
-
-  # Create user with defaults
-  def new_user params={}
-    User.new({
-      display_id: 'TestUser',
-      email: "testuser@example.com",
-      password: 'TestPassw0rd',
-      password_confirmation: 'TestPassw0rd'
-    }.merge(params))
-  end
-
-  # Create organization description with defaults
-  def new_description params={}
-    Org::Description.new({
-      language: I18n.locale,
-      content: "Dolor veniam cum voluptas ratione nam obcaecati nobis!"
-      # Needs to be assigned to an organization
-    }.merge(params))
-  end
-
-  # Create organization tag with defaults
-  def new_tag params={}
-    Org::Tag.new({
-      name: 'testtag',
-      icon_url: "orgs/tags/testtag.png",
-      color: 'ff80aa'
-    }.merge(params))
-  end
-
-  # Deprecated "default_options" helper
-  def default_options
-    {
-      type: org_types(:group),
-      logo_url: "logos/image.png",
-      cover_url: "covers/image.png",
-      marker_url: "markers/image.png",
-      marker_color: "000000",
-      descriptions: [new_description]
-    }
   end
 end

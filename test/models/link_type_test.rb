@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class LinkTypeTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save if name is present" do
     # Test without name
     t = new_link_type name: nil
@@ -11,7 +13,7 @@ class LinkTypeTest < ActiveSupport::TestCase
     assert_invalid t, name: :blank
 
     # Test with valid name
-    t.name = 'testtype'
+    t.name = "testtype"
     assert t.save
   end
 
@@ -34,13 +36,5 @@ class LinkTypeTest < ActiveSupport::TestCase
     # Test with valid icon url
     t.icon_url = "link_types/testtype.png"
     assert t.save
-  end
-
-  # Create link type with defaults
-  def new_link_type params={}
-    LinkType.new({
-      name: 'testtype',
-      icon_url: "link_types/testtype.png",
-    }.merge(params))
   end
 end

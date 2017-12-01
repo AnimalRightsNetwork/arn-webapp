@@ -1,36 +1,34 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save with correct id length" do
     # Test id too short
-    u = User.create default_options.merge(display_id: 'Shrt')
-    assert_not u.save
-    assert_not_empty u.errors[:id]
+    u = new_user display_id: 'Shrt'
+    assert_invalid u, id: :too_short
 
-    # Test id too long and invalid characters
-    u.display_id = "This1IsTooLongtousea$"
-    assert_not u.save
-    assert_not_empty u.errors[:id]
+    # Test id too long
+    u.display_id = 'This1IsTooLongToUseAsAName'
+    assert_invalid u, id: :too_long
 
     # Test lower limit
-    u.display_id = "Short"
+    u.display_id = 'Short'
     assert u.save
 
     # Test upper limit
-    u.display_id = "This1IsNotTooLongToU"
+    u.display_id = 'ThisIsNotTooLongToUseAsNa'
     assert u.save
   end
 
   test "should only save with valid characters" do
     # Test invalid characters
-    u = User.create default_options.merge(display_id: 'In^alid')
-    assert_not u.save
-    assert_not_empty u.errors[:id]
+    u = new_user display_id: 'Invalid.'
+    assert_invalid u, id: :invalid_characters
 
     # Test invalid characters and too short
     u.display_id = 'In^4'
-    assert_not u.save
-    assert_not_empty u.errors[:id]
+    assert_invalid u, id: :invalid_characters
 
     # Test only valid characters
     u.display_id = 'Valid'
@@ -39,22 +37,19 @@ class UserTest < ActiveSupport::TestCase
 
   test "should only save with valid password and confirmation" do
     # Test without password
-    u = User.create display_id: 'Valid', email: 'valid@example.com'
-    assert_not u.save
-    assert_not_empty u.errors[:password]
+    u = new_user password: nil, password_confirmation: nil
+    assert_invalid u, password: :blank
 
     # Test with too short password
-    u.password = u.password_confirmation = 'T00shrt'
-    assert_not u.save
-    assert_not_empty u.errors[:password]
+    u.password = u.password_confirmation = "T00shrt"
+    assert_invalid u, password: :too_short
 
     # Test with too long password
     u.password = u.password_confirmation = "A0#{'a' * 63}"
-    assert_not u.save
-    assert_not_empty u.errors[:password]
+    assert_invalid u, password: :too_long
 
     # Test lower limit
-    u.password = u.password_confirmation = 'L0ngengh'
+    u.password = u.password_confirmation = "L0ngengh"
     assert u.save
 
     # Test upper limit
@@ -63,31 +58,33 @@ class UserTest < ActiveSupport::TestCase
 
     # Test without digits
     u.password = u.password_confirmation = "NoDigitsAtAll"
-    assert_not u.save
-    assert_not_empty u.errors[:password]
+    assert_invalid u, password: :insufficient_complexity
 
     # Test missing confirmation
     u.password = "MyPassw0rd"
     u.password_confirmation = nil
-    assert_not u.save
+    assert_invalid u, password_confirmation: :blank
     assert_empty u.errors[:password]
-    assert_not_empty u.errors[:password_confirmation]
 
     # Test not matching
     u.password = (u.password_confirmation = "MyPassw0rd") + "a"
-    assert_not u.save
+    assert_invalid u, password_confirmation: :confirmation
     assert_empty u.errors[:password]
-    assert_not_empty u.errors[:password_confirmation]
+
+    # Test only confirmation
+    u.password = nil
+    u.password_confirmation = "MyPassw0rd"
+    assert_invalid u, password: :blank
   end
 
   test "should save without new password" do
     # Create valid user
-    u = User.new default_options.merge(display_id: 'OldPassword', email: 'oldpassword@example.com')
-    assert u.save
+    u = new_user display_id: 'Saved'
+    u.save
 
     # Reload user and change id
-    u = User.find 'oldpassword'
-    u.display_id = 'OldPasswordChanged'
+    u = User.find 'saved'
+    u.display_id = 'SavedAgain'
 
     # Save without new password
     assert_nil u.password
@@ -96,36 +93,32 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should enforce uniqueness on user id" do
-    u1 = User.new default_options.merge(display_id: 'Uniqueid', email: 'unique1@example.com')
-    u2 = User.new default_options.merge(display_id: 'UNIQUEID', email: 'unique2@example.com')
+    u1 = new_user display_id: 'UniqueID'
+    u2 = new_user display_id: 'UNIQUEID'
     assert u1.save
-    assert_not u2.save
-    assert_not_empty u2.errors[:id]
+    assert_invalid u2, id: :taken
   end
 
   test "should only save with valid email address" do
     # Test without email
-    u = User.new default_options.merge(display_id: 'InvalidEmail', email: nil)
-    assert_not u.save
-    assert_not_empty u.errors[:email]
+    u = new_user email: nil
+    assert_invalid u, email: :blank
 
     # Test with invalid email
     u.email = "invalid@email"
-    assert_not u.save
-    assert_not_empty u.errors[:email]
+    assert_invalid u, email: :invalid_email_address
   end
 
   test "should enforce uniqueness on email" do
-    u1 = User.new default_options.merge(display_id: 'Unique1', email: 'unique@example.com')
-    u2 = User.new default_options.merge(display_id: 'Unique2', email: 'unique@example.com')
+    u1 = new_user display_id: 'Unique1', email: "unique@example.com"
+    u2 = new_user display_id: 'Unique2', email: "unique@example.com"
     assert u1.save
-    assert_not u2.save
-    assert_not_empty u2.errors[:email]
+    assert_invalid u2, email: :taken
   end
 
   test "should only make activation_digest writable through 'save' and 'activate'" do
     # Create user
-    u = User.new default_options.merge(display_id: 'Activation', email: 'activation@example.com')
+    u = new_user display_id: 'Activation'
     
     # Test unspecified tokens
     assert_nil u.activation_token
@@ -152,14 +145,5 @@ class UserTest < ActiveSupport::TestCase
 
     # Test user being activated after activation
     assert u.activated?
-  end
-
-  # Default options
-  def default_options
-    {
-      password: "MyPassw0rd",
-      password_confirmation: "MyPassw0rd",
-      email: 'test@example.com'
-    }
   end
 end

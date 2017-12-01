@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class Event::TagTest < ActiveSupport::TestCase
+  include ModelInstantiationHelper
+
   test "should only save if name is present" do
     # Test without name
-    t = new_tag name: nil
+    t = new_event_tag name: nil
     assert_invalid t, name: :blank
 
     # Test with empty name
@@ -16,15 +18,15 @@ class Event::TagTest < ActiveSupport::TestCase
   end
 
   test "should not save with duplicate name" do
-    t1 = new_tag
-    t2 = new_tag
+    t1 = new_event_tag
+    t2 = new_event_tag
     assert t1.save
     assert_invalid t2, name: :taken
   end
 
   test "should only save if icon url is present" do
     # Test without icon url
-    t = new_tag icon_url: nil
+    t = new_event_tag icon_url: nil
     assert_invalid t, icon_url: :blank
 
     # Test with empty icon url
@@ -38,7 +40,7 @@ class Event::TagTest < ActiveSupport::TestCase
 
   test "should only save with valid color" do
     # Test without color
-    t = new_tag color: nil
+    t = new_event_tag color: nil
     assert_invalid t, color: :blank
 
     # Test with empty color
@@ -62,11 +64,37 @@ class Event::TagTest < ActiveSupport::TestCase
     assert t.save
   end
 
-  def new_tag params={}
-    Event::Tag.new({
-      name: 'testtag',
-      icon_url: 'events/tags/testtag.png',
-      color: '0f0f0f'
-    }.merge(params))
+  test "should interact with events" do
+    # Create event and tag
+    e = new_event
+    t = new_event_tag
+    assert e.save
+
+    # Test successful tag assignment
+    assert t.new_record?
+    assert e.tags << t
+    assert_not t.new_record?
+    e = Event.find e.id
+    assert e.tags.include?(t)
+
+    # Test successful event removal
+    t = Event::Tag.find t.id
+    t.events.clear
+    assert e.tags.empty?
+  end
+
+  test "should prevent duplicates" do
+    # Create event and tag
+    e = new_event
+    t = new_event_tag
+
+    # Test adding tag first time
+    e.tags << t
+    assert e.save
+
+    # Test adding tag second time
+    assert_raises ActiveRecord::RecordNotUnique do
+      e.tags << t
+    end
   end
 end
