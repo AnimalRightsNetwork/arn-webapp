@@ -1,6 +1,12 @@
 class Org::Type < ApplicationRecord
-  # Association
+  ################
+  # Associations #
+  ################
   has_many :orgs, foreign_key: :org_type_id, dependent: :restrict_with_error
+
+  ###############
+  # Validations #
+  ###############
 
   # Validate name uniqueness and presence
   validates :name, uniqueness: true, presence: true

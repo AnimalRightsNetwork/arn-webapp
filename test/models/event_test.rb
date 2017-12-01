@@ -13,6 +13,32 @@ class EventTest < ActiveSupport::TestCase
     assert orgs(:org1).reload.events.include?(e)
   end
 
+  test "should only save with valid name" do
+    # Test without name
+    e = new_event name: nil
+    assert_invalid e, name: :blank
+
+    # Test with empty name
+    e.name = ""
+    assert_invalid e, name: :blank
+
+    # Test with too short name
+    e.name = "abc"
+    assert_invalid e, name: :too_short
+
+    # Test with too long name
+    e.name = "A" * 65
+    assert_invalid e, name: :too_long
+
+    # Test lower limit
+    e.name = "Lowe"
+    assert e.save
+
+    # Test upper limit
+    e.name = "A" * 64
+    assert e.save
+  end
+
   test "should not save without type" do
     e = new_event 
     e.type = nil
