@@ -55,11 +55,6 @@ Org::Tag.create([
     name: 'research',
     icon_url: "orgs/tags/research.png",
     color: "ffff00"
-  },
-  {
-    name: 'non_ar',
-    icon_url: "orgs/tags/non_ar.png",
-    color: "ff0000"
   }
 ])
 
@@ -144,6 +139,11 @@ Event::Tag.create([
     name: 'disobedience',
     icon_url: "events/tags/disobedience.png",
     color: "ffff00"
+  },
+  {
+    name: 'non_ar',
+    icon_url: "events/tags/non_ar.png",
+    color: "ff0000"
   }
 ])
 
@@ -176,6 +176,7 @@ Event.create([
     name: "Wir haben es Satt",
     image_url: "events/images/1.png",
     start_time: DateTime.new(2018, 1, 20, 11, 0, 0),
+    tags: [ Event::Tag.find_by(name: 'non_ar') ],
     descriptions: [
       Event::Description.new(
         language: :de,
