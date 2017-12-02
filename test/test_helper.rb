@@ -4,6 +4,9 @@ require 'rails/test_help'
 # Require shared helpers
 Dir[Rails.root.join('test/shared/**/*.rb')].each { |f| require f }
 
+# Load seed into test database
+Rails.application.load_seed
+
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   fixtures :all

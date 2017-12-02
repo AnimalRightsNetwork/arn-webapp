@@ -1,0 +1,2 @@
+module Orgs::TypesHelper
+end
