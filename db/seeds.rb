@@ -4,21 +4,21 @@
 end
 
 # Create users
-User.create([
-  {
-    display_id: 'Alice',
-    email: "alice@example.com",
-    password: "AlicePassw0rd",
-    password_confirmation: "AlicePassw0rd"
-  },
-  {
-    display_id: 'Bob',
-    email: "bob@example.com",
-    password: "BobPassw0rd",
-    password_confirmation: "BobPassw0rd",
-    admin: true
-  }
-])
+a = User.create(
+  display_id: 'Alice',
+  email: "alice@example.com",
+  password: "AlicePassw0rd",
+  password_confirmation: "AlicePassw0rd"
+)
+a.activate(a.activation_token)
+
+User.create(
+  display_id: 'Bobson',
+  email: "bobson@example.com",
+  password: "BobsonPassw0rd",
+  password_confirmation: "BobsonPassw0rd",
+  admin: true
+)
 
 # Create link types
 LinkType.create([

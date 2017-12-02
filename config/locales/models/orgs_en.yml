@@ -1,0 +1,23 @@
+---
+en:
+  activerecord:
+    models:
+      org: { one: "Organization", other: "Organizations" }
+    attributes:
+      org:
+        id: "ID"
+        display_id: "Display ID"
+        name: "Name"
+        logo_url: "Logo URL"
+        cover_url: "Cover URL"
+        marker_url: "Marker URL"
+        marker_color: "Marker color"
+    errors:
+      models:
+        org:
+          attributes:
+            id:
+              invalid_characters: "can only contain latin letters and digits"
+            marker_color:
+              invalid_characters: "can only contain hexadecimal digits"
+
