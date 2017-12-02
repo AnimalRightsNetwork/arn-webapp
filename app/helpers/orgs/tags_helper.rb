@@ -1,0 +1,2 @@
+module Orgs::TagsHelper
+end
