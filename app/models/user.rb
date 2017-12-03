@@ -15,7 +15,12 @@ class User < ApplicationRecord
   private :id=
   def display_id= display_id
     self.id = display_id&.downcase
-    super(display_id)
+    super display_id
+  end
+
+  # Automatically convert email to lower case
+  def email= email
+    super email&.downcase
   end
 
   # Create activation token reader
@@ -57,6 +62,7 @@ class User < ApplicationRecord
   def activate token
     if !activated? && User.password_matches?(activation_digest, token)
       self.activation_digest = nil
+      self.save
       self
     else
       false
@@ -65,6 +71,31 @@ class User < ApplicationRecord
 
   def activated?
     activation_digest == nil
+  end
+
+  # Print full error messages except email taken
+  def full_error_messages
+    error_messages = []
+    errors.details.each do |attr, attr_errors|
+      attr_errors.each do |error|
+        unless attr == :email && error[:error] == :taken
+          message = errors.generate_message(attr, error[:error], error)
+          error_messages << errors.full_message(attr, message)
+        end
+      end
+    end
+    error_messages
+  end
+
+  # Check if has any errors other than email taken
+  def has_filtered_errors?
+    errors.details.each do |attr, attr_errors|
+      return true if attr != :email
+      attr_errors.each do |error|
+        return true if error[:error] != :taken
+      end
+    end
+    false
   end
 
   ###########

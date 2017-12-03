@@ -8,7 +8,57 @@
 
 // Give body full height
 html, body {
+    font-family: sans-serif;
     min-height: 100%;
     margin: 0;
     padding: 0;
 }
+
+// Alert messages
+.alert-success, .alert-error, .alert-warning {
+    width: 100%;
+    padding: 8px;
+}
+.alert-success { background: lightgreen; }
+.alert-error { background: red; }
+.alert-warning { background: yellow; }
+
+// Header bar
+header {
+    height: 50px;
+    width: 100%;
+    background: rgb(50, 50, 50);
+    color: white;
+    font-size: 30px;
+    .logo {
+        margin: 5px 10px 5px 8px;
+    }
+    span {
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        line-height: 20px;
+    }
+    .btn-create, .btn-danger {
+        margin: 10px;
+        float: right;
+    }
+}
+
+// Main content
+main {
+    padding: 16px;
+}
+
+.btn-create, .btn-danger {
+    font-size: 18px;
+    font-weight: normal;
+    display: inline-block;
+    padding: 5px 8px;
+    @include border-radius(3px);
+    color: black;
+    text-decoration: none;
+}
+.btn-create { background: green; }
+.btn-danger { background: red; }
+

@@ -1,0 +1,4 @@
+<%= form_for :activation, url: activate_user_path do |f| %>
+  <%= hidden_field_tag :token, params[:token] %>
+  <%= f.submit "Activate account" %>
+<% end %>
