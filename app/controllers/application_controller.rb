@@ -4,4 +4,7 @@ class ApplicationController < ActionController::Base
   # Set appropriate locale
   include LocaleHandler
   before_action :handle_locale
+
+  # Make session available
+  include SessionsHelper
 end

@@ -1,0 +1,6 @@
+---
+en:
+  layouts:
+    application:
+      login: Login
+      logout: Logout

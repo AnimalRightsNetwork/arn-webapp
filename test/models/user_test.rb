@@ -110,8 +110,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should enforce uniqueness on email" do
-    u1 = new_user display_id: 'Unique1', email: "unique@example.com"
-    u2 = new_user display_id: 'Unique2', email: "unique@example.com"
+    u1 = new_user display_id: 'Unique1', email: "unique@test.com"
+    u2 = new_user display_id: 'Unique2', email: "unique@test.com"
     assert u1.save
     assert_invalid u2, email: :taken
   end

@@ -10,6 +10,20 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
   <body class="<%= controller_name %> <%= controller_name %>-<%= action_name %>">
-    <%= yield %>
+    <header>
+      <%= link_to image_tag('logo_white_128.png', size: "64x38", alt: "Logo", class: "logo"), root_url %>
+      <span>Animal Rights Network</span>
+      <% if logged_in? %>
+        <%= link_to t('.logout'), logout_path, class: 'btn-danger', method: :delete %>
+      <% else %>
+        <%= link_to t('.login'), login_path, class: 'btn-create' %>
+      <% end %>
+    </header>
+    <%flash.each do |type, message| %>
+      <%= content_tag :div, message, class: "alert-#{type}" %>
+    <% end %>
+    <main>
+      <%= yield %>
+    </main>
   </body>
 </html>

@@ -4,9 +4,13 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get '/admin', to: 'static_pages#admin'
 
-  # User login
+  # User signup
   get '/signup', to: 'users#new'
   post '/signup', to: 'users#create'
+
+  # User activation
+  get '/users/:id/activate/:token', to: 'users#activation', as: :user_activation
+  post '/users/:id/activate', to: 'users#activate', as: :activate_user
 
   # User login
   get '/login', to: 'sessions#new'
@@ -18,8 +22,8 @@ Rails.application.routes.draw do
 
   # Events
   resources :events, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    get 'map', on: :collection
-    get 'calendar', on: :collection
+    get :map, on: :collection
+    get :calendar, on: :collection
   end
 
   # Administration

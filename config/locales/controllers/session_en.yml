@@ -1,0 +1,13 @@
+---
+en:
+  sessions:
+    login: "Login"
+    logout: "Logout"
+    new:
+      already_logged_in: You are already logged in.
+    create:
+      success: Welcome!
+      failure: That account doesn't exist.
+      not_activated: Your account is not activated yet. Check your emails.
+    destroy:
+      success: You are logged out!
