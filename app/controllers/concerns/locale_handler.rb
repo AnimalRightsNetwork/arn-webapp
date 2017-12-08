@@ -7,6 +7,17 @@ module LocaleHandler
       # Reset to default locale
       I18n.locale = I18n.default_locale
 
+      # Redirect if change_language parameter is set
+      if params.include? :change_language
+        if params[:change_language] == I18n.default_locale.to_s
+          redirect_to subdomain: nil, params: request.GET.without('change_language')
+        else
+          redirect_to subdomain: params[:change_language],
+            params: request.GET.without('change_language')
+        end
+        return
+      end
+
       if request.subdomain.empty?
         unless session.include? :language_set
           # Get compatible locale from "Accept-Language" header

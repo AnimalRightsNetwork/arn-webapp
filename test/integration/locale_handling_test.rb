@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class LocaleHandlingTest < ActionDispatch::IntegrationTest
+  test "should redirect to url parameter language" do
+    host! 'animalrights.test'
+    get events_path, params: { change_language: I18n.available_locales[-1], test: "foo" }
+    assert_redirected_to host: "#{I18n.available_locales[-1]}.animalrights.test",
+      params: { test: "foo" }
+  end
+
   test "should redirect to Accept-Language" do
     # Test base domain with non-default language header
     host! 'animalrights.test'
