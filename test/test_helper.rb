@@ -17,9 +17,8 @@ class ActiveSupport::TestCase
     assert_not_predicate record, :save
 
     # Assert specified errors to occur
-    errors.each do |attr, msg|
-      errs = record.errors.details[attr].map{|d| d[:error]}
-      assert_includes errs, msg
+    errors.each do |attr, error|
+      assert record.has_error? attr, error
     end
   end
 end

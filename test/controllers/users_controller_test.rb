@@ -62,7 +62,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       end
     end
     assert_response :success
-    assert_select 'form.new_user'
+    assert_includes flash.keys, 'form_error'
+    assert_select '.form-error'
 
     # Destroy user for further tests
     User.destroy('testuser')

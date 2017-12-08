@@ -59,4 +59,16 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_url
     assert_not_includes flash.keys, 'success'
   end
+
+  test "Should show error message on wrong credentials" do
+    post login_url, params: {
+      session: {
+        email: 'Wrong@example.com',
+        password: 'Passw0rd'
+      }
+    }
+    assert_response :success
+    assert_includes flash.keys, 'form_error'
+    assert_select '.form-error'
+  end
 end

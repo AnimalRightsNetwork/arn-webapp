@@ -1,14 +1,15 @@
 ---
 en:
   users:
-    signup: Signup
+    sign_up: Sign up
     activate:
       success: You account is activated!
       failure: Your activation link is invaild. Maybe your account is activated already?
     new:
-      id_title: only upper case, lower case and digits allowed
-      password_title: must contain upper case, lower case and digits
-      signup: Create my account!
+      id_title: Only upper case, lower case and digits
+      password_title: Must contain upper case, lower case and digits
+      email_title: Needed for account activation
+      password_confirmation_title: Needs to match the password
+      sign_up: Create my account!
     create:
       success: You account has been created! Check your emails!
-      failure: Whoops! Something went wrong. Try again!

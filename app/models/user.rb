@@ -73,20 +73,6 @@ class User < ApplicationRecord
     activation_digest == nil
   end
 
-  # Print full error messages except email taken
-  def full_error_messages
-    error_messages = []
-    errors.details.each do |attr, attr_errors|
-      attr_errors.each do |error|
-        unless attr == :email && error[:error] == :taken
-          message = errors.generate_message(attr, error[:error], error)
-          error_messages << errors.full_message(attr, message)
-        end
-      end
-    end
-    error_messages
-  end
-
   # Check if has any errors other than email taken
   def has_filtered_errors?
     errors.details.each do |attr, attr_errors|
