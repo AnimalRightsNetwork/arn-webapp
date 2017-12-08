@@ -14,5 +14,7 @@
 //= require turbolinks
 //= require jquery
 //= require jquery-ui/widgets/tooltip
+//= require jquery-ui/widgets/selectmenu
+//= require ./app
 //= require ./common
 //= require_tree .
