@@ -67,9 +67,9 @@
 
   .ui-state-active, .ui-state-focus { margin: 0; }
 
-  &:before {
-    border-bottom-color: $tooltip-background;
+  &:after {
     border: 10px solid transparent;
+    border-bottom-color: $tooltip-background;
     content: "";
     display: block;
     height: 0;
