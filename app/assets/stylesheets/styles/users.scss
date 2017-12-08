@@ -1,6 +1,6 @@
-body[data-action='users.activation'] {
+body[data-action="users.activation"] {
   // Account activation button
-  #activation-form > input[type='submit'] {
+  #activation-form > input[type="submit"] {
     @include border-radius(8px);
     background-color: $header-background;
     border: none;
