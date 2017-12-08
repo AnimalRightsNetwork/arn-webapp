@@ -1,0 +1,18 @@
+// Style tooltips
+.ui-tooltip {
+  background-color: $tooltip-background;
+  color: white;
+  border-radius: 8px;
+  overflow: visible;
+  &:after {
+    top: -20px;
+    left: 30%;
+    position: absolute;
+    display: block;
+    content: "";
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-bottom-color: $tooltip-background;
+  }
+}

@@ -12,4 +12,7 @@
 //
 //= require rails-ujs
 //= require turbolinks
+//= require jquery
+//= require jquery-ui/widgets/tooltip
+//= require ./common
 //= require_tree .

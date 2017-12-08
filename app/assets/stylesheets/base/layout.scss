@@ -1,0 +1,41 @@
+// Full body height
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+// Setup susy
+$susy: (
+    columns: 12,
+    gutters: 1/4,
+    math: fluid,
+    output: float,
+    global-box-sizing: border-box,
+    container: 1200px
+);
+
+// Layout header
+.header-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    header {
+        @include container;
+    }
+}
+
+// Layout body
+.body-container {
+    position: fixed;
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow-y: auto;
+    .body {
+        @include container;
+    }
+}

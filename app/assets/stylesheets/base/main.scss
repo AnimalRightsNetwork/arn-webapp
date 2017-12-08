@@ -1,0 +1,8 @@
+// Document wide styles
+body {
+    font-family:Impact, Charcoal, sans-serif;
+}
+
+* {
+    @include box-sizing(border-box);
+}

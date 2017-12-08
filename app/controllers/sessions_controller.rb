@@ -15,11 +15,11 @@ class SessionsController < ApplicationController
         flash[:success] = t('.success')
         redirect_to root_url
       else
-        flash.now[:error] = t('.not_activated')
+        flash.now[:form_error] = t('.not_activated')
         render :new
       end
     else
-      flash.now[:error] = t('.failure')
+      flash.now[:form_error] = t('.failure')
       render :new
     end
   end

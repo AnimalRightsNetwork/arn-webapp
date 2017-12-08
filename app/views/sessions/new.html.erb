@@ -1,12 +1,16 @@
-<h1>Login</h1>
+<main class="user-form">
+  <div class="tab-active"><%= t('sessions.login') %></div>
+  <%= link_to t('users.sign_up'), signup_url, class: "tab-inactive" %>
 
-<%= form_for :session, url: login_path do |f| %>
-  <%= f.label :email %><br />
-  <%= f.email_field :email %><br />
-  <br />
-  <%= f.label :password %><br />
-  <%= f.password_field :password %><br />
-  <br />
-  <%= f.submit t('sessions.login') %>
-<% end %>
-<%= link_to t('users.signup'), signup_path %>
+  <% if flash['form_error'] %>
+    <div class="form-error"><%= flash[:form_error] %></div>
+  <% end %>
+
+  <%= form_for :session, url: login_path do |f| %>
+    <%= f.email_field :email,
+      required: true, placeholder: User.human_attribute_name(:email), autofocus: true
+    %>
+    <%= f.password_field :password, required: true, placeholder: User.human_attribute_name(:password) %>
+    <%= f.submit t('.login') %>
+  <% end %>
+</main>

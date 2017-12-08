@@ -13,7 +13,13 @@ gem 'http_accept_language', '~> 2.1.1'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Compass for stylesheets
-gem 'compass-rails'
+gem 'compass-rails', '~>3.0.2'
+# Use normalize for consistent style
+gem 'normalize-scss', '~>7.0.0'
+# Use Susy for grid layouts
+gem 'susy', '~>2.2.12'
+# Use breakpoint for responsive design
+gem 'breakpoint', '~>2.7.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -21,6 +27,10 @@ gem 'uglifier', '>= 1.3.0'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
+# Use jquery library
+gem 'jquery-rails', '~>4.3.1'
+# Use jquery-ui for advanced UI elements
+gem 'jquery-ui-rails', '~>6.0.1'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

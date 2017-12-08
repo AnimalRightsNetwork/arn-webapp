@@ -1,0 +1,32 @@
+// Header
+.header-container {
+  background: $header-background;
+  color: $header-color;
+  header {
+    padding: 0 20px;
+    font-size: 30px;
+    .logo {
+      display: inline-block;
+      height: 100%;
+      img {
+        margin: 5px;
+        height: 30px;
+      }
+    }
+
+    .btn-session {
+      display: inline-block;
+      height: 100%;
+      float: right;
+      img {
+        height: 28px;
+        margin: 6px;
+        transition: 0.2s;
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+}
+body.sessions-new header .btn-session img { transform: scale(1.2); }

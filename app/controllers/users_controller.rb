@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new user_params
     @user.save
     if @user.has_filtered_errors?
-      flash.now[:error] = t('.failure')
+      flash.now[:form_error] = @user.get_error_message(:id, :taken) if @user.has_error?(:id, :taken)
       render :new
     else
       unless @user.errors.any?

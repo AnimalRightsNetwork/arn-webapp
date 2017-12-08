@@ -4,10 +4,11 @@ en:
     login: "Login"
     logout: "Logout"
     new:
+      login: Let me in!
       already_logged_in: You are already logged in.
     create:
       success: Welcome!
-      failure: That account doesn't exist.
       not_activated: Your account is not activated yet. Check your emails.
+      failure: Invalid login credentials
     destroy:
       success: You are logged out!

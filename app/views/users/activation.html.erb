@@ -1,4 +1,4 @@
-<%= form_for :activation, url: activate_user_path do |f| %>
+<%= form_for :activation, url: activate_user_path, html: { id: 'activation-form' } do |f| %>
   <%= hidden_field_tag :token, params[:token] %>
-  <%= f.submit "Activate account" %>
+  <%= f.submit "Activate account", autofocus: true %>
 <% end %>

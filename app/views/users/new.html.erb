@@ -1,27 +1,32 @@
-<h1><%= t('users.signup') %></h1>
+<main class="user-form">
+  <!-- Header -->
+  <%= link_to t('sessions.login'), login_url, class: "tab-inactive" %>
+  <div class="tab-active"><%= t('users.sign_up') %></div>
 
-
-<%= form_for @user, url: signup_path do |f| %>
-  <%# Show filtered error messages %>
-  <% if @user.has_filtered_errors? %>
-    <ul>
-      <% @user.full_error_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
+  <!-- Username taken message -->
+  <% if flash['form_error'] %>
+    <div class="form-error"><%= flash[:form_error] %></div>
   <% end %>
 
-  <%= f.label :display_id %><br />
-  <%= f.text_field :display_id, pattern: '[A-Za-z0-9]{5,25}', title: t('.id_title') %><br />
-  <br />
-  <%= f.label :email %><br />
-  <%= f.email_field :email %><br />
-  <br />
-  <%= f.label :password %><br />
-  <%= f.password_field :password, pattern: '(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,64}', title: t('.password_title') %><br />
-  <br />
-  <%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %><br />
-  <br />
-  <%= f.submit t('.signup') %>
-<% end %>
+  <!-- User form -->
+  <%= form_for @user, url: signup_path do |f| %>
+    <%= f.text_field :id, name: 'user[display_id]', value: @user.display_id,
+      pattern: '[A-Za-z0-9]{5,25}', required: true,
+      placeholder: true, title: t('.id_title'), class: 'has-tooltip', autofocus: true
+    %>
+    <%= email_field_tag 'user[email]', @user.email,
+      required: true,
+      placeholder: t('helpers.placeholder.user.email'),
+      title: t('.email_title'), class: 'has-tooltip'
+    %>
+    <%= f.password_field :password,
+      pattern: '(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).{8,64}', required: true,
+      placeholder: true, title: t('.password_title'), class: 'has-tooltip'
+    %>
+    <%= f.password_field :password_confirmation,
+      required: true,
+      placeholder: true, title: t('.password_confirmation_title'), class: 'has-tooltip'
+    %>
+    <%= f.submit t('.sign_up') %>
+  <% end %>
+</main>
