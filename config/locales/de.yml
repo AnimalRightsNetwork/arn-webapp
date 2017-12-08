@@ -1,5 +1,6 @@
 ---
 de:
+  language_name: "Deutsch"
   activerecord:
     errors:
       messages:

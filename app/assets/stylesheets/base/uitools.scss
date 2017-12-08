@@ -16,3 +16,66 @@
     border-bottom-color: $tooltip-background;
   }
 }
+
+// Style language select
+.ui-languageselect-button {
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  outline: 0;
+  vertical-align: middle;
+  width: auto !important;
+
+  .language-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .ui-selectmenu-text {
+    margin-right: 5px;
+  }
+
+  .ui-selectmenu-icon {
+    display: inline-block;
+    border: 5px solid transparent;
+    border-top-color: white;
+    vertical-align: middle;
+    margin-top: 10px;
+  }
+}
+
+.ui-languageselect-menu {
+  @include border-radius(8px);
+  background-color: $tooltip-background;
+  color: white;
+
+  .ui-menu-item {
+    padding: 4px;
+    transition: 0.2s;
+
+    .language-icon {
+      float: left;
+      height: 20px;
+      margin-right: 5px;
+      width: 20px;
+    }
+
+    &:first-child { @include border-radius(8px 8px 0 0); }
+    &:last-child { @include border-radius(0 0 8px 8px); }
+    &:hover { background-color: #505050; }
+  }
+
+  .ui-state-active, .ui-state-focus { margin: 0; }
+
+  &:after {
+    border: 10px solid transparent;
+    border-bottom-color: $tooltip-background;
+    content: "";
+    display: block;
+    height: 0;
+    position: absolute;
+    right: 18px;
+    top: -20px;
+    width: 0;
+  }
+}

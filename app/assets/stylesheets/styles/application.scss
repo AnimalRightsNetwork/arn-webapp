@@ -1,0 +1,26 @@
+.page-language-form {
+  display: inline-block;
+  float: right;
+  height: 100%;
+  line-height: 40px;
+  margin-right: 8px;
+
+  select {
+    vertical-align: middle;
+    background-color: transparent;
+    color: white;
+    border: none;
+  }
+
+  input[type="submit"] {
+    margin-left: 2px;
+    vertical-align: middle;
+    background-color: transparent;
+    width: 20px;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+}
+
+

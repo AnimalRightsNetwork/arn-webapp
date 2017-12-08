@@ -14,12 +14,29 @@
   <body data-action="<%= controller_path.gsub /\//, '.' %>.<%= action_name %>">
     <div class="header-container">
       <header>
+        <%# ARN Logo %>
         <%= link_to image_tag('logo_white_128.png', alt: "Logo"), root_url, class: "logo" %>
+        <%# Session button %>
         <% if logged_in? %>
           <%= link_to image_tag('logout.png'), logout_path, class: 'btn-session', method: :delete %>
         <% else %>
           <%= link_to image_tag('login.png'), login_path, class: 'btn-session' %>
         <% end %>
+        <%# Language select %>
+        <form class="page-language-form" action="">
+          <% request.GET.each do |k, v| %>
+            <%= hidden_field_tag k, v, id: nil %>
+          <% end %>
+          <select name="change_language">
+            <% I18n.available_locales.each do |l| %>
+              <option value="<%= l %>" data-image="<%= image_path "languages/#{l}.png" %>"
+                <% if I18n.locale == l %>selected="selected"<% end %>>
+                <%= t :language_name, locale: l %>
+              </option>
+            <% end %>
+          </select><!--
+          --><input type="submit" value="➡" />
+        </form>
       </header>
     </div>
     <div class="body-container">
