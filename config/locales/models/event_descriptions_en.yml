@@ -1,9 +1,0 @@
----
-de:
-  activerecord:
-    models:
-      event/description: { one: "Beschreibung", other: "Beschreibungen" }
-    attributes:
-      event/description:
-        language: "Sprache"
-        content: "Inhalt"

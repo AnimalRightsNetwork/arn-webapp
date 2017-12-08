@@ -10,16 +10,6 @@ en:
         email: Email
         password: Password
         password_confirmation: Password confirmation
-    errors:
-      models:
-        user:
-          attributes:
-            id:
-              invalid_characters: can only contain letters and digits
-            password:
-              insufficient_complexity: needs to contain upper case, lower case and digits
-            email:
-              invalid_email_address: needs to be a valid email address
   helpers:
     placeholder:
       user:

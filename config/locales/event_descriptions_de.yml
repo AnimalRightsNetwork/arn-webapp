@@ -1,9 +1,0 @@
----
-en:
-  activerecord:
-    models:
-      event/description: { one: "Descriptions", other: "Descriptions" }
-    attributes:
-      event/description:
-        language: "Language"
-        content: "Content"
