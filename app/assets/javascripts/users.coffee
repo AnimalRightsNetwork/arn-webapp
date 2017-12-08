@@ -1,3 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
+# Setup sign up tooltips
+App.onLoad 'users.new', 'users.create', ->
+  $('.has-tooltip').tooltip
+    position:
+      my: 'top+15'
+      at: 'bottom'
+      collision: 'none'
+  .off('mouseover mouseout')
+
+# Slide error messages in
+App.onLoad 'users.create', ->
+  $('.form-error').hide().slideDown()
+

@@ -1,0 +1,19 @@
+body[data-action='users.activation'] {
+  // Account activation button
+  #activation-form > input[type='submit'] {
+    @include border-radius(8px);
+    background-color: $header-background;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: block;
+    font-size: 30px;
+    height: 50px;
+    margin: 30px auto 0;
+    transition: 0.2s;
+    width: 300px;
+    &:hover, &:focus {
+      background-color: lighten($header-background, 10%)
+    }
+  }
+}

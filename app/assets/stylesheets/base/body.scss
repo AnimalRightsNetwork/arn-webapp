@@ -1,0 +1,17 @@
+// Body
+.body-container {
+    background-color: $body-background;
+
+    .body {
+        padding: 5px 20px;
+    }
+}
+
+// Alert messages
+%alert {
+    width: 100%;
+    padding: 8px;
+}
+.alert-success { @extend %alert; background: lightgreen; }
+.alert-error { @extend %alert; background: red; }
+.alert-warning { @extend %alert; background: yellow; }

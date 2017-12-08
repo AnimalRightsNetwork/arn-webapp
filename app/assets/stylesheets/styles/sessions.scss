@@ -1,0 +1,64 @@
+// Login and Signup forms
+main.user-form {
+  @include border-radius(0 0 8px 8px);
+  background-color: white;
+  border-top: 10px solid $green;
+  color: $gray-text;
+  margin: 50px auto 0;
+  width: 450px;
+
+  .tab-active {
+    @include reset-link;
+    display: block;
+    float: left;
+    font-size: 25px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    width: 50%;
+  }
+
+  .tab-inactive {
+    @extend .tab-active;
+    background-color: #d0d0d0; 
+  }
+
+  .form-error {
+    clear: both;
+    color: red;
+    font-size: 20px;
+    padding-top: 16px;
+    text-align: center;
+  }
+
+  form {
+    input {
+      @include border-radius(8px);
+      border: 1px solid #d0d0d0;
+      font-size: 25px;
+      margin: 20px 5% 0;
+      padding: 8px;
+      width: 90%;
+    }
+
+    .field_with_errors input {
+      border-color: red;
+    }
+    
+    input[type=submit] {
+      @include border-radius(0 0 8px 8px);
+      background-color: $header-background;
+      border: none;
+      color: $header-color;
+      cursor: pointer;
+      font-size: 25px;
+      height: 50px;
+      margin: 20px 0 0;
+      transition: 0.2s;
+      width: 100%;
+      &:hover, &:focus {
+        background-color: lighten($header-background, 10%)
+      }
+    }
+  }
+}
